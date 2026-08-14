@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Giftback — Retenção, Frequência &amp; Faixas | Mega Loteria</title>
+<style>
+  .viz-root {
+    color-scheme: light;
+    --surface-1:      #fcfcfb;
+    --page:           #f9f9f7;
+    --text-primary:   #0b0b0b;
+    --text-secondary: #52514e;
+    --text-muted:     #898781;
+    --grid:           #e1e0d9;
+    --baseline:       #c3c2b7;
+    --border:         rgba(11,11,11,0.10);
+    --series-1:       #2a78d6; /* blue   - Mega Loterias / marca (benchmark) */
+    --series-2:       #eb6834; /* orange - Sorte Sorte / Giftback (piloto) */
+    --series-3:       #1baf7a; /* aqua   - usado/resgatado */
+    --good:           #0ca30c;
+    --good-text:      #006300;
+    --warn:           #fab219;
+    --serious:        #ec835a;
+    --critical:       #d03b3b;
+    --seq-100:        #cde2fb;
+    --seq-450:        #2a78d6;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:where(:not([data-theme="light"])) .viz-root {
+      color-scheme: dark;
+      --surface-1:      #1a1a19;
+      --page:           #0d0d0d;
+      --text-primary:   #ffffff;
+      --text-secondary: #c3c2b7;
+      --text-muted:     #898781;
+      --grid:           #2c2c2a;
+      --baseline:       #383835;
+      --border:         rgba(255,255,255,0.10);
+      --series-1:       #3987e5;
+      --series-2:       #d95926;
+      --series-3:       #199e70;
+      --good:           #0ca30c;
+      --good-text:      #0ca30c;
+      --warn:           #fab219;
+      --serious:        #ec835a;
+      --critical:       #e66767;
+    }
+  }
+  :root[data-theme="dark"] .viz-root {
+    color-scheme: dark;
+    --surface-1:      #1a1a19;
+    --page:           #0d0d0d;
+    --text-primary:   #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted:     #898781;
+    --grid:           #2c2c2a;
+    --baseline:       #383835;
+    --border:         rgba(255,255,255,0.10);
+    --series-1:       #3987e5;
+    --series-2:       #d95926;
+    --series-3:       #199e70;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--page);
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    color: var(--text-primary);
+  }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 28px 20px 64px; }
+
+  header.top { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; margin-bottom: 22px; flex-wrap: wrap; }
+  h1 { font-size: 22px; font-weight: 650; margin: 0 0 4px; letter-spacing: -0.01em; }
+  .subtitle { color: var(--text-secondary); font-size: 13.5px; margin: 0; }
+  .stamp { color: var(--text-muted); font-size: 12px; margin-top: 6px; }
+  .theme-toggle {
+    border: 1px solid var(--border); background: var(--surface-1); color: var(--text-secondary);
+    border-radius: 8px; padding: 7px 12px; font-size: 12.5px; cursor: pointer; white-space: nowrap;
+  }
+
+  h3.section-h { font-size: 16px; font-weight: 650; margin: 34px 0 4px; padding-top: 14px; border-top: 1px solid var(--border); }
+  h3.section-h:first-of-type { border-top: none; padding-top: 0; margin-top: 8px; }
+  p.section-sub { color: var(--text-secondary); font-size: 13px; margin: 0 0 14px; }
+
+  .segmented { display: inline-flex; background: var(--surface-1); border: 1px solid var(--border); border-radius: 10px; padding: 3px; margin-bottom: 20px; }
+  .segmented button {
+    border: none; background: transparent; color: var(--text-secondary); font-size: 13px; font-weight: 550;
+    padding: 7px 16px; border-radius: 8px; cursor: pointer; font-family: inherit;
+  }
+  .segmented button.active { background: var(--series-1); color: #fff; }
+
+  .card {
+    background: var(--surface-1); border: 1px solid var(--border); border-radius: 14px;
+    padding: 18px 20px; margin-bottom: 18px;
+  }
+  .card h2 { font-size: 14.5px; font-weight: 650; margin: 0 0 3px; }
+  .card .desc { color: var(--text-secondary); font-size: 12.5px; margin: 0 0 16px; }
+
+  .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  @media (max-width: 780px) { .kpi-grid { grid-template-columns: repeat(2, 1fr); } }
+  .tile { background: var(--page); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; }
+  .tile .label { font-size: 11.5px; color: var(--text-secondary); margin-bottom: 6px; }
+  .tile .value { font-size: 20px; font-weight: 650; letter-spacing: -0.01em; }
+  .tile .sub { font-size: 11.5px; color: var(--text-muted); margin-top: 3px; }
+  .tile.accent .value { color: var(--series-1); }
+
+  .mini-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  @media (max-width: 780px) { .mini-grid { grid-template-columns: repeat(2, 1fr); } }
+  .mini-card { background: var(--page); border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px 6px; }
+  .mini-card .label { font-size: 11.5px; color: var(--text-secondary); margin-bottom: 2px; }
+  .mini-card .value { font-size: 15px; font-weight: 650; }
+
+  .legend { display: flex; gap: 16px; margin-bottom: 10px; flex-wrap: wrap; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12.5px; color: var(--text-secondary); }
+  .swatch { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
+
+  .bar-tip {
+    position: fixed; pointer-events: none; background: var(--text-primary); color: var(--surface-1);
+    font-size: 11.5px; padding: 5px 8px; border-radius: 6px; opacity: 0; transition: opacity .1s;
+    z-index: 20; white-space: nowrap; font-weight: 550;
+  }
+
+  .insight {
+    display: flex; gap: 14px; align-items: flex-start; background: var(--page);
+    border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; margin-top: 4px;
+  }
+  .insight .num { font-size: 26px; font-weight: 700; color: var(--series-1); min-width: 92px; }
+  .insight p { margin: 0; font-size: 13px; color: var(--text-secondary); line-height: 1.5; }
+  .insight.warn .num { color: var(--warn); }
+  .insight.warn { border-left: 3px solid var(--warn); }
+
+  .reco-list { margin: 0; padding: 0; list-style: none; }
+  .reco-list li { display: flex; gap: 10px; padding: 10px 0; border-top: 1px solid var(--border); font-size: 13px; color: var(--text-secondary); line-height: 1.5; }
+  .reco-list li:first-child { border-top: none; }
+  .reco-list .n { color: var(--series-1); font-weight: 700; min-width: 18px; }
+
+  footer.notes { font-size: 11.5px; color: var(--text-muted); line-height: 1.6; margin-top: 8px; }
+  footer.notes strong { color: var(--text-secondary); }
+
+  table.datatbl { width: 100%; border-collapse: collapse; font-size: 12.5px; margin-top: 4px; }
+  table.datatbl th, table.datatbl td { text-align: left; padding: 7px 8px; border-bottom: 1px solid var(--border); }
+  table.datatbl th { color: var(--text-muted); font-weight: 550; white-space: nowrap; }
+  table.datatbl td.num { text-align: right; font-variant-numeric: tabular-nums; }
+  table.datatbl td.meter-cell { min-width: 110px; }
+  details.tableview summary { cursor: pointer; font-size: 12px; color: var(--text-secondary); margin-top: 10px; }
+
+  .meter-wrap { display: flex; align-items: center; gap: 8px; }
+  .meter-track { flex: 1; height: 8px; border-radius: 4px; background: var(--seq-100); overflow: hidden; min-width: 50px; }
+  .meter-fill { height: 100%; border-radius: 4px; background: var(--seq-450); }
+  .meter-val { font-size: 12px; font-variant-numeric: tabular-nums; min-width: 46px; text-align: right; }
+
+  .roi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 8px; }
+  @media (max-width: 780px) { .roi-grid { grid-template-columns: repeat(2, 1fr); } }
+</style>
+</head>
+<body>
+<div class="viz-root">
+  <div class="wrap">
+
+    <header class="top">
+      <div>
+        <h1>Giftback — Retenção, Frequência &amp; Faixas de Valor</h1>
+        <p class="subtitle">Marca MEGA LOTERIA (código 7008) · Lojas piloto MEGA LOTERIAS (57440) e SORTE SORTE (57448)</p>
+        <p class="stamp">Última atualização: 14 ago 2026 · Giftback ativo nestas 2 lojas desde 11/ago/2026 (4 dias de dados) · peça para eu atualizar quando quiser números mais recentes</p>
+      </div>
+      <button class="theme-toggle" id="themeToggle">Modo escuro</button>
+    </header>
+
+    <div class="segmented" id="scopeToggle">
+      <button class="active" data-scope="mega">Mega Loterias</button>
+      <button data-scope="sorte">Sorte Sorte</button>
+      <button data-scope="combo">Combinado</button>
+    </div>
+
+    <!-- KPI CARDS -->
+    <div class="card">
+      <h2>KPIs de performance do bônus (piloto Giftback)</h2>
+      <p class="desc" id="kpiDesc">Loja MEGA LOTERIAS (57440) · 11-14/ago/2026</p>
+      <div class="kpi-grid" id="kpiGrid"></div>
+    </div>
+
+    <!-- DAILY BONUS CHART -->
+    <div class="card">
+      <h2>Bônus gerado vs. usado por dia</h2>
+      <p class="desc" id="dailyDesc">Volume diário e taxa de uso (resgatado / gerado) desde o início do piloto — MEGA LOTERIAS</p>
+      <div class="legend">
+        <span class="legend-item"><span class="swatch" style="background:var(--series-1)"></span>Bônus gerado</span>
+        <span class="legend-item"><span class="swatch" style="background:var(--series-3)"></span>Bônus usado (resgatado)</span>
+      </div>
+      <svg id="dailyBarChart" width="100%" height="220" style="overflow:visible"></svg>
+      <p class="section-sub" style="margin-top:18px">Taxa de uso diária (usado / gerado)</p>
+      <svg id="dailyLineChart" width="100%" height="140" style="overflow:visible"></svg>
+      <div class="insight">
+        <div class="num" id="dailyInsightNum">4,3×</div>
+        <p id="dailyInsightText">a taxa de uso saltou de 14% (dia 1 do piloto) para 62% (dia 4) — ainda são poucos dias, mas a curva de adoção está subindo rápido.</p>
+      </div>
+    </div>
+
+    <!-- FREQUENCY DISTRIBUTION -->
+    <div class="card">
+      <h2>Frequência de apostas por cliente no período</h2>
+      <p class="desc">Quantos clientes distintos apostaram 1, 2, 3 ou 4+ vezes nos 4 dias de piloto — a base da meta de retenção</p>
+      <div class="legend">
+        <span class="legend-item"><span class="swatch" style="background:var(--series-1)"></span>Mega Loterias</span>
+        <span class="legend-item"><span class="swatch" style="background:var(--series-2)"></span>Sorte Sorte</span>
+      </div>
+      <svg id="freqChart" width="100%" height="260" style="overflow:visible"></svg>
+      <div class="insight">
+        <div class="num" id="freqInsightNum">73%</div>
+        <p id="freqInsightText">dos clientes da Mega Loterias apostaram só 1x ou 2x no período — esse é o grupo-alvo para virar apostador recorrente (3x+).</p>
+      </div>
+      <details class="tableview">
+        <summary>Ver como tabela</summary>
+        <table class="datatbl" id="freqTable"></table>
+      </details>
+    </div>
+
+    <!-- BONUS IMPACT ON FREQUENCY -->
+    <div class="card">
+      <h2>Efeito do resgate de bônus na frequência</h2>
+      <p class="desc" id="impactDesc">Média de apostas no período, comparando clientes que resgataram bônus vs. os que não resgataram — MEGA LOTERIAS</p>
+      <svg id="impactChart" width="100%" height="150" style="overflow:visible"></svg>
+      <div class="insight">
+        <div class="num" id="impactInsightNum">2,5×</div>
+        <p id="impactInsightText">mais apostas no período entre quem resgatou bônus (2,55) do que entre quem não resgatou (1,02) — o resgate é o gatilho mais forte de recorrência que temos nos dados hoje.</p>
+      </div>
+    </div>
+
+    <h3 class="section-h">Dados gerais da marca (benchmark Mega Loteria)</h3>
+    <p class="section-sub">Base própria da Mega Loteria (todas as lojas/canais, não só o piloto Giftback) — mês de jul/2026, o mês cheio mais recente antes do piloto começar. É o "norte" que o cliente já usa internamente.</p>
+
+    <div class="card">
+      <h2>KPIs gerais — jul/2026</h2>
+      <p class="desc">Base completa da marca: 28.791 clientes ativos no mês</p>
+      <div class="kpi-grid">
+        <div class="tile"><div class="label">Pedidos (transações)</div><div class="value">136.634</div></div>
+        <div class="tile"><div class="label">Faturamento</div><div class="value">R$ 2.729.619,40</div></div>
+        <div class="tile"><div class="label">Ticket médio</div><div class="value">R$ 19,98</div></div>
+        <div class="tile"><div class="label">Frequência média</div><div class="value">4,75</div><div class="sub">transações / cliente / mês</div></div>
+        <div class="tile"><div class="label">Clientes ativos</div><div class="value">28.791</div></div>
+        <div class="tile"><div class="label">RMC médio</div><div class="value">R$ 94,81</div><div class="sub">receita média por cliente</div></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Tendência mensal 2026 (jan-jul)</h2>
+      <p class="desc">Últimos 7 meses fechados da marca — contexto antes do piloto Giftback nas duas lojas</p>
+      <div class="mini-grid" id="trendGrid"></div>
+    </div>
+
+    <div class="card">
+      <h2>Distribuição de clientes por faixa de valor (Fx1-Fx8)</h2>
+      <p class="desc">Mesma régua de faixas que a Mega Loteria já usa internamente — base da marca (jul/2026) vs. perfil de quem já transacionou no piloto Giftback</p>
+      <div class="legend">
+        <span class="legend-item"><span class="swatch" style="background:var(--series-1)"></span>Base da marca (jul/2026)</span>
+        <span class="legend-item"><span class="swatch" style="background:var(--series-2)"></span>Piloto Giftback (11-14/ago)</span>
+      </div>
+      <svg id="tierShareChart" width="100%" height="260" style="overflow:visible"></svg>
+      <div class="insight warn">
+        <div class="num" style="font-size:16px; min-width:70px">Ainda não</div>
+        <p>é possível provar migração de faixa (cliente subindo de Fx1 para Fx2, etc.) porque o piloto Giftback só tem 4 dias — a base "silver.giftback.bonus" não tem histórico de antes de 11/ago para comparar o mesmo cliente ao longo do tempo. O gráfico acima compara <strong style="color:var(--text-primary)">perfis diferentes</strong> (marca toda vs. só as 2 lojas piloto em 4 dias), não o mesmo cliente antes/depois — por isso a base piloto aparece concentrada na Fx1 (é o público que já transaciona nessas 2 lojas, ainda sem tempo de resposta do bônus).</p>
+      </div>
+      <details class="tableview">
+        <summary>Ver tabela completa por faixa (clientes, frequência, ticket médio)</summary>
+        <table class="datatbl" id="tierTable"></table>
+      </details>
+    </div>
+
+    <div class="card">
+      <h2>Meta que a Mega Loteria já definiu (norte do projeto)</h2>
+      <p class="desc">Simulação de ROI da própria marca para o programa de bônus — é a meta que precisamos bater</p>
+      <div class="roi-grid">
+        <div class="tile accent"><div class="label">Meta de crescimento — clientes ativos</div><div class="value">+5%</div></div>
+        <div class="tile accent"><div class="label">Meta de crescimento — frequência</div><div class="value">+15%</div></div>
+        <div class="tile accent"><div class="label">Meta de crescimento — ticket médio</div><div class="value">+15%</div></div>
+        <div class="tile accent"><div class="label">ROI projetado</div><div class="value">1,57×</div></div>
+      </div>
+      <div class="kpi-grid">
+        <div class="tile"><div class="label">Receita incremental projetada</div><div class="value">R$ 1.060.798,34</div></div>
+        <div class="tile"><div class="label">Custo projetado (comissão + cashback)</div><div class="value">R$ 676.027,28</div></div>
+        <div class="tile"><div class="label">Frequência observada hoje (resgatou vs. não)</div><div class="value" style="color:var(--good-text)">+150%</div><div class="sub">2,5× já bate a meta de +15% — sinal forte, ainda em amostra pequena</div></div>
+        <div class="tile"><div class="label">Taxa de uso do bônus (tendência)</div><div class="value" style="color:var(--good-text)">14% → 62%</div><div class="sub">crescendo dia a dia desde o início do piloto</div></div>
+      </div>
+    </div>
+
+    <!-- RECOMMENDATIONS -->
+    <div class="card">
+      <h2>O que isso significa para a meta de retenção e subida de faixa</h2>
+      <p class="desc">Interpretação aplicada ao objetivo do cliente: converter apostadores de 1-3x em recorrentes e subir de faixa de valor</p>
+      <ul class="reco-list">
+        <li><span class="n">1</span><span>O maior segmento em ambas as lojas é quem aposta <strong style="color:var(--text-primary)">apenas 1x</strong> no período (55% da base da Mega Loterias, 52% da Sorte Sorte) — é aqui que está o maior volume de clientes para trabalhar, não no topo da pirâmide.</span></li>
+        <li><span class="n">2</span><span>Quem resgata bônus aposta em média <strong style="color:var(--text-primary)">2,5x mais</strong> no período do que quem não resgata — isso já bate 10x a meta de +15% de frequência que a própria marca definiu. Ainda é sinal contemporâneo (mesmo período), não prova de causalidade, mas é o indicador mais forte disponível hoje.</span></li>
+        <li><span class="n">3</span><span>A taxa de uso do bônus está subindo todos os dias desde o lançamento (14% → 34% → 56% → 62%) — sinal de adoção crescente, o que tende a puxar frequência e, com o tempo, o ticket médio (Fx) junto.</span></li>
+        <li><span class="n">4</span><span><strong style="color:var(--text-primary)">Para provar subida de faixa de verdade</strong>, precisamos acompanhar os mesmos clientes semana a semana (não só o agregado): pegar a faixa de cada cliente ativo no piloto hoje e comparar com a faixa dele daqui a 4-6 semanas. Isso vira possível assim que tivermos mais histórico do Giftback — é o próximo passo natural deste painel.</span></li>
+        <li><span class="n">5</span><span>Ação sugerida: criar campanhas de bônus segmentadas para clientes de 1x e 2x apostas que ainda não resgataram — esse grupo tem quase o dobro de clientes do grupo "resgatou" em ambas as lojas.</span></li>
+      </ul>
+    </div>
+
+    <footer class="notes">
+      <strong>Limitações dos dados nesta versão:</strong> o Giftback só está ativo nessas 2 lojas desde 11/ago/2026 — todas as métricas "piloto Giftback" cobrem apenas 4 dias corridos, não um mês fechado. Isso é normal em fase de lançamento, mas significa que os números ainda vão oscilar bastante. Os "dados gerais da marca" vêm da planilha interna da Mega Loteria (base completa da marca, todas as lojas/canais) e usam jul/2026 como mês de referência (mês cheio mais recente); essa base é maior e mais ampla que as 2 lojas do piloto, então as comparações de perfil por faixa são direcionais, não uma migração real do mesmo cliente. O indicador de "% de engajamento" (vendas com bônus vs. sem bônus) continua não preenchido na fonte do Giftback para essas duas lojas.<br>
+      <strong>Como atualizar:</strong> este painel é uma foto de hoje. Não há conexão ao vivo com o banco de dados a partir do seu navegador — quando quiser números novos, me peça para "atualizar o dashboard" nesta conversa e eu busco os dados mais recentes (Giftback + planilha da marca, se houver uma nova versão) e atualizo este mesmo artefato.
+    </footer>
+
+  </div>
+</div>
+
+<div class="bar-tip" id="barTip"></div>
+
+<script>
+const DATA = {
+  mega: {
+    label: "Mega Loterias (57440)",
+    kpis: {
+      gerado_qtd: 11926, gerado_valor: 62789.86,
+      resgatado_qtd: 4449, resgatado_valor: 9053.05,
+      perdido_qtd: 215, perdido_valor: 0,
+      ticket_medio: 8.50, receita_incremental: 72220.45,
+      tempo_medio_resgate: 0.79,
+      taxa_resgate: 4449/11926, taxa_perda: 215/11926,
+      clientes_ativos: 7073
+    },
+    freq: { "1x": 3910, "2x": 1742, "3x": 1283, "4+": 138 },
+    impact: { resgatou: {clientes: 3082, media: 2.55}, nao: {clientes: 3991, media: 1.02} },
+    daily: [
+      {d:"11/08", gerado:2851, usado:406},
+      {d:"12/08", gerado:4895, usado:1644},
+      {d:"13/08", gerado:3510, usado:1969},
+      {d:"14/08", gerado:861,  usado:532}
+    ],
+    tier: {
+      "Fx1 Até R$20":        {qtd:4515, valor:48839.00,  trans:6485, freq:1.4363233665559247, tm:7.5310717039,  rmc:10.8170542636},
+      "Fx2 R$21-R$50":       {qtd:1684, valor:54341.30,  trans:3509, freq:2.083729216152019,  tm:15.4862638928, rmc:32.2691805226},
+      "Fx3 R$51-R$100":      {qtd:582,  valor:39944.40,  trans:1278, freq:2.195876288659794,  tm:31.2553990610, rmc:68.6329896907},
+      "Fx4 R$101-R$300":     {qtd:263,  valor:41802.64,  trans:627,  freq:2.3840304182509504, tm:66.6708771930, rmc:158.9453992395},
+      "Fx5 R$301-R$500":     {qtd:24,   valor:8632.37,   trans:54,   freq:2.25,                tm:159.8587037037,rmc:359.6820833333},
+      "Fx6 R$501-R$1.000":   {qtd:12,   valor:8006.16,   trans:35,   freq:2.9166666666666665, tm:228.7474285714,rmc:667.1800000000},
+      "Fx7 R$1.001-R$5.000": {qtd:2,    valor:3432.00,   trans:4,    freq:2.0,                 tm:858.0000000000,rmc:1716.0000000000},
+      "Fx8 Acima R$5.000":   {qtd:47,   valor:10832.86,  trans:125,  freq:2.6595744680851063,  tm:86.6628800000, rmc:230.4863829787}
+    }
+  },
+  sorte: {
+    label: "Sorte Sorte (57448)",
+    kpis: {
+      gerado_qtd: 1500, gerado_valor: 7547.92,
+      resgatado_qtd: 593, resgatado_valor: 1085.13,
+      perdido_qtd: 27, perdido_valor: 0,
+      ticket_medio: 8.50, receita_incremental: 7132.37,
+      tempo_medio_resgate: 0.77,
+      taxa_resgate: 593/1500, taxa_perda: 27/1500,
+      clientes_ativos: 851
+    },
+    freq: { "1x": 442, "2x": 203, "3x": 183, "4+": 23 },
+    impact: { resgatou: {clientes: 402, media: 2.59}, nao: {clientes: 449, media: 1.02} },
+    daily: [
+      {d:"11/08", gerado:411, usado:63},
+      {d:"12/08", gerado:586, usado:238},
+      {d:"13/08", gerado:439, usado:254},
+      {d:"14/08", gerado:86,  usado:47}
+    ],
+    tier: {
+      "Fx1 Até R$20":        {qtd:576, valor:6022.75, trans:857, freq:1.4878472222222223, tm:7.0277129522,  rmc:10.4561631944},
+      "Fx2 R$21-R$50":       {qtd:199, valor:6326.87, trans:463, freq:2.3266331658291457,  tm:13.6649460043, rmc:31.7933165829},
+      "Fx3 R$51-R$100":      {qtd:57,  valor:3941.32, trans:135, freq:2.3684210526315788,  tm:29.1949629630, rmc:69.1459649123},
+      "Fx4 R$101-R$300":     {qtd:15,  valor:2396.03, trans:41,  freq:2.7333333333333334,  tm:58.4397560976, rmc:159.7353333333},
+      "Fx5 R$301-R$500":     {qtd:2,   valor:856.79,  trans:7,   freq:3.5,                  tm:122.3985714286,rmc:428.3950000000},
+      "Fx6 R$501-R$1.000":   {qtd:2,   valor:1395.25, trans:7,   freq:3.5,                  tm:199.3214285714,rmc:697.6250000000},
+      "Fx7 R$1.001-R$5.000": {qtd:0,   valor:0,       trans:0,   freq:0,                    tm:0,             rmc:0},
+      "Fx8 Acima R$5.000":   {qtd:5,   valor:132.68,  trans:12,  freq:2.4,                  tm:11.0566666667, rmc:26.5360000000}
+    }
+  }
+};
+
+function sumTier(a,b) {
+  const out = {};
+  for (const k of Object.keys(a)) {
+    const qtd = a[k].qtd + b[k].qtd;
+    const valor = a[k].valor + b[k].valor;
+    const trans = a[k].trans + b[k].trans;
+    out[k] = {
+      qtd, valor, trans,
+      freq: qtd ? trans/qtd : 0,
+      tm: trans ? valor/trans : 0,
+      rmc: qtd ? valor/qtd : 0
+    };
+  }
+  return out;
+}
+
+DATA.combo = {
+  label: "Combinado (Mega Loteria — marca 7008)",
+  kpis: {
+    gerado_qtd: DATA.mega.kpis.gerado_qtd + DATA.sorte.kpis.gerado_qtd,
+    gerado_valor: DATA.mega.kpis.gerado_valor + DATA.sorte.kpis.gerado_valor,
+    resgatado_qtd: DATA.mega.kpis.resgatado_qtd + DATA.sorte.kpis.resgatado_qtd,
+    resgatado_valor: DATA.mega.kpis.resgatado_valor + DATA.sorte.kpis.resgatado_valor,
+    perdido_qtd: DATA.mega.kpis.perdido_qtd + DATA.sorte.kpis.perdido_qtd,
+    perdido_valor: 0,
+    ticket_medio: 8.50,
+    receita_incremental: DATA.mega.kpis.receita_incremental + DATA.sorte.kpis.receita_incremental,
+    tempo_medio_resgate: 0.78,
+    taxa_resgate: (DATA.mega.kpis.resgatado_qtd + DATA.sorte.kpis.resgatado_qtd) / (DATA.mega.kpis.gerado_qtd + DATA.sorte.kpis.gerado_qtd),
+    taxa_perda: (DATA.mega.kpis.perdido_qtd + DATA.sorte.kpis.perdido_qtd) / (DATA.mega.kpis.gerado_qtd + DATA.sorte.kpis.gerado_qtd),
+    clientes_ativos: DATA.mega.kpis.clientes_ativos + DATA.sorte.kpis.clientes_ativos
+  },
+  freq: {
+    "1x": DATA.mega.freq["1x"] + DATA.sorte.freq["1x"],
+    "2x": DATA.mega.freq["2x"] + DATA.sorte.freq["2x"],
+    "3x": DATA.mega.freq["3x"] + DATA.sorte.freq["3x"],
+    "4+": DATA.mega.freq["4+"] + DATA.sorte.freq["4+"]
+  },
+  impact: {
+    resgatou: { clientes: DATA.mega.impact.resgatou.clientes + DATA.sorte.impact.resgatou.clientes,
+                media: ((DATA.mega.impact.resgatou.clientes*DATA.mega.impact.resgatou.media) + (DATA.sorte.impact.resgatou.clientes*DATA.sorte.impact.resgatou.media)) / (DATA.mega.impact.resgatou.clientes + DATA.sorte.impact.resgatou.clientes) },
+    nao: { clientes: DATA.mega.impact.nao.clientes + DATA.sorte.impact.nao.clientes,
+                media: ((DATA.mega.impact.nao.clientes*DATA.mega.impact.nao.media) + (DATA.sorte.impact.nao.clientes*DATA.sorte.impact.nao.media)) / (DATA.mega.impact.nao.clientes + DATA.sorte.impact.nao.clientes) }
+  },
+  daily: DATA.mega.daily.map((row,i) => ({ d: row.d, gerado: row.gerado + DATA.sorte.daily[i].gerado, usado: row.usado + DATA.sorte.daily[i].usado })),
+  tier: sumTier(DATA.mega.tier, DATA.sorte.tier)
+};
+
+// Brand-wide benchmark (jul/2026, whole Mega Loteria brand — all stores/channels)
+const BRAND_TIER = {
+  "Fx1 Até R$20":        {qtd:11707, valor:130896.15, trans:15336, freq:1.31, tm:8.54,  rmc:11.18},
+  "Fx2 R$21-R$50":       {qtd:6389,  valor:216654,    trans:18677, freq:2.92, tm:11.60, rmc:33.91},
+  "Fx3 R$51-R$100":      {qtd:4547,  valor:326971.5,  trans:25496, freq:5.61, tm:12.82, rmc:71.91},
+  "Fx4 R$101-R$300":     {qtd:4367,  valor:743181.75, trans:44830, freq:10.27,tm:16.58, rmc:170.18},
+  "Fx5 R$301-R$500":     {qtd:951,   valor:364548.25, trans:14990, freq:15.76,tm:24.32, rmc:383.33},
+  "Fx6 R$501-R$1.000":   {qtd:570,   valor:392086,    trans:10983, freq:19.27,tm:35.70, rmc:687.87},
+  "Fx7 R$1.001-R$5.000": {qtd:250,   valor:437335.5,  trans:6093,  freq:24.37,tm:71.78, rmc:1749.34},
+  "Fx8 Acima R$5.000":   {qtd:10,    valor:117946.25, trans:229,   freq:22.90,tm:515.05,rmc:11794.63}
+};
+const BRAND_TOTAL = { clientes: 28791, valor: 2729619.40, trans: 136634, freq: 4.75, tm: 19.98, rmc: 94.81 };
+
+// Monthly trend 2026 (brand-wide, from the client's own tracking spreadsheet)
+const TREND_2026 = [
+  {mes:"jan", qtd:31195, valor:2685482.63, trans:145081, freq:4.65, tm:18.51},
+  {mes:"fev", qtd:28600, valor:2369689.75, trans:115940, freq:4.05, tm:20.44},
+  {mes:"mar", qtd:28728, valor:2496014.70, trans:128574, freq:4.48, tm:19.41},
+  {mes:"abr", qtd:32927, valor:2845459.67, trans:133780, freq:4.06, tm:21.27},
+  {mes:"mai", qtd:37298, valor:3013805.00, trans:139536, freq:3.74, tm:21.60},
+  {mes:"jun", qtd:30637, valor:2798438.25, trans:123626, freq:4.04, tm:22.64},
+  {mes:"jul", qtd:28791, valor:2729619.40, trans:136634, freq:4.75, tm:19.98}
+];
+
+const fmtBRL = n => "R$ " + n.toLocaleString('pt-BR', {minimumFractionDigits:2, maximumFractionDigits:2});
+const fmtBRLShort = n => "R$ " + n.toLocaleString('pt-BR', {maximumFractionDigits:0});
+const fmtInt = n => Math.round(n).toLocaleString('pt-BR');
+const fmtPct = n => (n*100).toLocaleString('pt-BR', {minimumFractionDigits:1, maximumFractionDigits:1}) + "%";
+const fmtDec = (n,d=2) => n.toLocaleString('pt-BR', {minimumFractionDigits:d, maximumFractionDigits:d});
+
+let scope = 'mega';
+
+function renderKPIs() {
+  const d = DATA[scope].kpis;
+  document.getElementById('kpiDesc').textContent = DATA[scope].label + " · 11-14/ago/2026 (piloto)";
+  const tiles = [
+    ["Bônus gerados", fmtInt(d.gerado_qtd), fmtBRL(d.gerado_valor)],
+    ["Bônus resgatados", fmtInt(d.resgatado_qtd), fmtBRL(d.resgatado_valor)],
+    ["Taxa de resgate", fmtPct(d.taxa_resgate), "resgatado / gerado"],
+    ["Bônus perdidos", fmtInt(d.perdido_qtd), fmtPct(d.taxa_perda) + " de perda"],
+    ["Ticket médio do bônus", fmtBRL(d.ticket_medio), ""],
+    ["Receita incremental", fmtBRL(d.receita_incremental), "gerada por resgates"],
+    ["Tempo médio até resgate", fmtDec(d.tempo_medio_resgate) + " dia", ""],
+    ["Clientes ativos no período", fmtInt(d.clientes_ativos), ""]
+  ];
+  document.getElementById('kpiGrid').innerHTML = tiles.map(([label,value,sub]) =>
+    `<div class="tile"><div class="label">${label}</div><div class="value">${value}</div>${sub ? `<div class="sub">${sub}</div>`:''}</div>`
+  ).join('');
+}
+
+function barTip(el, text) {
+  const tip = document.getElementById('barTip');
+  el.addEventListener('mousemove', e => {
+    tip.style.opacity = 1;
+    tip.style.left = (e.clientX + 14) + 'px';
+    tip.style.top = (e.clientY - 10) + 'px';
+    tip.textContent = text;
+  });
+  el.addEventListener('mouseleave', () => tip.style.opacity = 0);
+}
+
+function renderFreqChart() {
+  const cats = ["1x","2x","3x","4+"];
+  const megaVals = cats.map(c => DATA.mega.freq[c]);
+  const sorteVals = cats.map(c => DATA.sorte.freq[c]);
+  const maxVal = Math.max(...megaVals, ...sorteVals);
+  const svg = document.getElementById('freqChart');
+  const W = svg.clientWidth || 1000, H = 260;
+  const padL = 40, padB = 30, padT = 10;
+  const plotW = W - padL - 20, plotH = H - padB - padT;
+  const groupW = plotW / cats.length;
+  const barW = 26, gap = 4;
+  const yScale = v => plotH - (v/maxVal)*plotH;
+
+  let gridlines = '';
+  const steps = 4;
+  for (let i=0;i<=steps;i++){
+    const v = Math.round(maxVal * i/steps / 100) * 100;
+    const y = padT + yScale(v);
+    gridlines += `<line x1="${padL}" y1="${y}" x2="${W-20}" y2="${y}" stroke="var(--grid)" stroke-width="1"/>`;
+    gridlines += `<text x="${padL-8}" y="${y+4}" font-size="10.5" fill="var(--text-muted)" text-anchor="end">${fmtInt(v)}</text>`;
+  }
+
+  let bars = '';
+  cats.forEach((c,i) => {
+    const gx = padL + i*groupW + groupW/2;
+    const mVal = megaVals[i], sVal = sorteVals[i];
+    const mH = (mVal/maxVal)*plotH, sH = (sVal/maxVal)*plotH;
+    const mx = gx - barW - gap/2, sx = gx + gap/2;
+    bars += `<rect data-tip="Mega Loterias · ${c}: ${fmtInt(mVal)} clientes" class="bartarget" x="${mx}" y="${padT+plotH-mH}" width="${barW}" height="${Math.max(mH,1)}" rx="4" fill="var(--series-1)"/>`;
+    bars += `<rect data-tip="Sorte Sorte · ${c}: ${fmtInt(sVal)} clientes" class="bartarget" x="${sx}" y="${padT+plotH-sH}" width="${barW}" height="${Math.max(sH,1)}" rx="4" fill="var(--series-2)"/>`;
+    bars += `<text x="${gx}" y="${padT+plotH+20}" font-size="12" fill="var(--text-secondary)" text-anchor="middle">${c}</text>`;
+  });
+  const baselineLn = `<line x1="${padL}" y1="${padT+plotH}" x2="${W-20}" y2="${padT+plotH}" stroke="var(--baseline)" stroke-width="1"/>`;
+
+  svg.innerHTML = gridlines + bars + baselineLn;
+  svg.querySelectorAll('.bartarget').forEach(el => barTip(el, el.getAttribute('data-tip')));
+
+  const total = megaVals.reduce((a,b)=>a+b,0);
+  const oneTwo = megaVals[0] + megaVals[1];
+  document.getElementById('freqInsightNum').textContent = Math.round(oneTwo/total*100) + "%";
+  document.getElementById('freqInsightText').textContent =
+    `dos clientes da Mega Loterias apostaram só 1x ou 2x no período (${fmtInt(oneTwo)} de ${fmtInt(total)}) — esse é o grupo-alvo para virar apostador recorrente (3x+). Na Sorte Sorte a proporção é ${Math.round((DATA.sorte.freq["1x"]+DATA.sorte.freq["2x"])/(cats.reduce((a,c)=>a+DATA.sorte.freq[c],0))*100)}%.`;
+
+  const tblRows = cats.map(c => `<tr><td>${c}</td><td class="num">${fmtInt(DATA.mega.freq[c])}</td><td class="num">${fmtInt(DATA.sorte.freq[c])}</td></tr>`).join('');
+  document.getElementById('freqTable').innerHTML =
+    `<thead><tr><th>Frequência</th><th style="text-align:right">Mega Loterias</th><th style="text-align:right">Sorte Sorte</th></tr></thead><tbody>${tblRows}</tbody>`;
+}
+
+function renderImpactChart() {
+  const d = DATA[scope].impact;
+  document.getElementById('impactDesc').textContent = `Média de apostas no período, comparando clientes que resgataram bônus vs. os que não resgataram — ${DATA[scope].label}`;
+  const rows = [
+    {label:"Resgatou bônus", val: d.resgatou.media, n: d.resgatou.clientes, color:'var(--series-1)'},
+    {label:"Não resgatou", val: d.nao.media, n: d.nao.clientes, color:'var(--text-muted)'}
+  ];
+  const maxVal = Math.max(...rows.map(r=>r.val)) * 1.15;
+  const svg = document.getElementById('impactChart');
+  const W = svg.clientWidth || 1000, H = 150;
+  const padL = 130, padR = 60, rowH = 56;
+  const plotW = W - padL - padR;
+
+  let out = '';
+  rows.forEach((r,i) => {
+    const y = 14 + i*rowH;
+    const barW = (r.val/maxVal)*plotW;
+    out += `<text x="${padL-12}" y="${y+18}" font-size="12.5" fill="var(--text-secondary)" text-anchor="end">${r.label}</text>`;
+    out += `<rect class="bartarget" data-tip="${r.label}: ${fmtDec(r.val)} apostas em média (${fmtInt(r.n)} clientes)" x="${padL}" y="${y}" width="${Math.max(barW,2)}" height="24" rx="4" fill="${r.color}"/>`;
+    out += `<text x="${padL+barW+10}" y="${y+17}" font-size="13" font-weight="650" fill="var(--text-primary)">${fmtDec(r.val)}</text>`;
+  });
+  svg.setAttribute('height', 14 + rows.length*rowH);
+  svg.innerHTML = out;
+  svg.querySelectorAll('.bartarget').forEach(el => barTip(el, el.getAttribute('data-tip')));
+
+  const mult = d.resgatou.media / d.nao.media;
+  document.getElementById('impactInsightNum').textContent = fmtDec(mult,1) + "×";
+  document.getElementById('impactInsightText').textContent =
+    `mais apostas no período entre quem resgatou bônus (${fmtDec(d.resgatou.media)}, ${fmtInt(d.resgatou.clientes)} clientes) do que entre quem não resgatou (${fmtDec(d.nao.media)}, ${fmtInt(d.nao.clientes)} clientes) — o resgate é o gatilho mais forte de recorrência que temos nos dados hoje.`;
+}
+
+function renderDailyCharts() {
+  const rows = DATA[scope].daily;
+  document.getElementById('dailyDesc').textContent = `Volume diário e taxa de uso (resgatado / gerado) desde o início do piloto — ${DATA[scope].label}`;
+
+  // Grouped bar: gerado vs usado
+  const svg = document.getElementById('dailyBarChart');
+  const W = svg.clientWidth || 1000, H = 220;
+  const padL = 50, padB = 26, padT = 10;
+  const plotW = W - padL - 20, plotH = H - padB - padT;
+  const maxVal = Math.max(...rows.map(r=>r.gerado));
+  const groupW = plotW / rows.length;
+  const barW = 30, gap = 4;
+
+  let gridlines = '';
+  for (let i=0;i<=4;i++){
+    const v = Math.round(maxVal*i/4/100)*100;
+    const y = padT + plotH - (v/maxVal)*plotH;
+    gridlines += `<line x1="${padL}" y1="${y}" x2="${W-20}" y2="${y}" stroke="var(--grid)" stroke-width="1"/>`;
+    gridlines += `<text x="${padL-8}" y="${y+4}" font-size="10.5" fill="var(--text-muted)" text-anchor="end">${fmtInt(v)}</text>`;
+  }
+  let bars = '';
+  rows.forEach((r,i) => {
+    const gx = padL + i*groupW + groupW/2;
+    const gH = (r.gerado/maxVal)*plotH, uH = (r.usado/maxVal)*plotH;
+    const gxb = gx - barW - gap/2, uxb = gx + gap/2;
+    bars += `<rect class="bartarget" data-tip="${r.d} · gerado: ${fmtInt(r.gerado)}" x="${gxb}" y="${padT+plotH-gH}" width="${barW}" height="${Math.max(gH,1)}" rx="4" fill="var(--series-1)"/>`;
+    bars += `<rect class="bartarget" data-tip="${r.d} · usado: ${fmtInt(r.usado)}" x="${uxb}" y="${padT+plotH-uH}" width="${barW}" height="${Math.max(uH,1)}" rx="4" fill="var(--series-3)"/>`;
+    bars += `<text x="${uxb+barW/2}" y="${padT+plotH-uH-6}" font-size="10.5" font-weight="650" fill="var(--text-primary)" text-anchor="middle">${fmtInt(r.usado)}</text>`;
+    bars += `<text x="${gx}" y="${padT+plotH+18}" font-size="12" fill="var(--text-secondary)" text-anchor="middle">${r.d}</text>`;
+  });
+  const baselineLn = `<line x1="${padL}" y1="${padT+plotH}" x2="${W-20}" y2="${padT+plotH}" stroke="var(--baseline)" stroke-width="1"/>`;
+  svg.innerHTML = gridlines + bars + baselineLn;
+  svg.querySelectorAll('.bartarget').forEach(el => barTip(el, el.getAttribute('data-tip')));
+
+  // Line: taxa de uso
+  const svg2 = document.getElementById('dailyLineChart');
+  const W2 = svg2.clientWidth || 1000, H2 = 140;
+  const padL2 = 50, padB2 = 24, padT2 = 14;
+  const plotW2 = W2 - padL2 - 40, plotH2 = H2 - padB2 - padT2;
+  const taxas = rows.map(r => r.usado/r.gerado);
+  const maxTaxa = Math.max(...taxas) * 1.2;
+  const stepX = plotW2 / (rows.length-1);
+  let grid2 = '';
+  for (let i=0;i<=3;i++){
+    const v = maxTaxa*i/3;
+    const y = padT2 + plotH2 - (v/maxTaxa)*plotH2;
+    grid2 += `<line x1="${padL2}" y1="${y}" x2="${W2-40}" y2="${y}" stroke="var(--grid)" stroke-width="1"/>`;
+    grid2 += `<text x="${padL2-8}" y="${y+4}" font-size="10.5" fill="var(--text-muted)" text-anchor="end">${Math.round(v*100)}%</text>`;
+  }
+  let pts = taxas.map((t,i) => [padL2 + i*stepX, padT2 + plotH2 - (t/maxTaxa)*plotH2]);
+  let path = 'M ' + pts.map(p=>p.join(',')).join(' L ');
+  let dots = pts.map((p,i) => `<circle class="bartarget" data-tip="${rows[i].d}: ${fmtPct(taxas[i])} de uso" cx="${p[0]}" cy="${p[1]}" r="5" fill="var(--series-1)" stroke="var(--surface-1)" stroke-width="2"/>`).join('');
+  let labels = rows.map((r,i) => `<text x="${pts[i][0]}" y="${padT2+plotH2+18}" font-size="12" fill="var(--text-secondary)" text-anchor="middle">${r.d}</text>`).join('');
+  let endLabel = `<text x="${pts[pts.length-1][0]}" y="${pts[pts.length-1][1]-12}" font-size="12.5" font-weight="650" fill="var(--text-primary)" text-anchor="middle">${fmtPct(taxas[taxas.length-1])}</text>`;
+  svg2.innerHTML = grid2 + `<path d="${path}" fill="none" stroke="var(--series-1)" stroke-width="2"/>` + dots + labels + endLabel;
+  svg2.querySelectorAll('.bartarget').forEach(el => barTip(el, el.getAttribute('data-tip')));
+
+  const mult = taxas[taxas.length-1] / taxas[0];
+  document.getElementById('dailyInsightNum').textContent = fmtDec(mult,1) + "×";
+  document.getElementById('dailyInsightText').textContent =
+    `a taxa de uso saltou de ${fmtPct(taxas[0])} (${rows[0].d}, dia 1 do piloto) para ${fmtPct(taxas[taxas.length-1])} (${rows[rows.length-1].d}) — ainda são poucos dias, mas a curva de adoção está subindo rápido.`;
+}
+
+function meterCell(val, max, formatter) {
+  const pct = max ? Math.min(100, (val/max)*100) : 0;
+  return `<div class="meter-wrap"><div class="meter-track"><div class="meter-fill" style="width:${pct}%"></div></div><span class="meter-val">${formatter(val)}</span></div>`;
+}
+
+function renderTierSection() {
+  const brandTotal = BRAND_TOTAL.clientes;
+  const pilotTier = DATA[scope].tier;
+  const pilotTotal = Object.values(pilotTier).reduce((a,t)=>a+t.qtd,0);
+  const faixas = Object.keys(BRAND_TIER);
+
+  // % share grouped bar chart
+  const brandPct = faixas.map(f => BRAND_TIER[f].qtd / brandTotal);
+  const pilotPct = faixas.map(f => pilotTotal ? pilotTier[f].qtd / pilotTotal : 0);
+  const maxPct = Math.max(...brandPct, ...pilotPct) * 1.1;
+  const svg = document.getElementById('tierShareChart');
+  const W = svg.clientWidth || 1000, H = 260;
+  const padL = 46, padB = 46, padT = 10;
+  const plotW = W - padL - 20, plotH = H - padB - padT;
+  const groupW = plotW / faixas.length;
+  const barW = 16, gap = 3;
+
+  let gridlines = '';
+  for (let i=0;i<=4;i++){
+    const v = maxPct*i/4;
+    const y = padT + plotH - (v/maxPct)*plotH;
+    gridlines += `<line x1="${padL}" y1="${y}" x2="${W-20}" y2="${y}" stroke="var(--grid)" stroke-width="1"/>`;
+    gridlines += `<text x="${padL-8}" y="${y+4}" font-size="10.5" fill="var(--text-muted)" text-anchor="end">${Math.round(v*100)}%</text>`;
+  }
+  let bars = '';
+  faixas.forEach((f,i) => {
+    const gx = padL + i*groupW + groupW/2;
+    const bH = (brandPct[i]/maxPct)*plotH, pH = (pilotPct[i]/maxPct)*plotH;
+    const bx = gx - barW - gap/2, px = gx + gap/2;
+    const shortLabel = f.replace(/^Fx\d\s*/,'').replace('Até R$20','Até 20').replace('Acima R$5.000','>5.000');
+    bars += `<rect class="bartarget" data-tip="${f} · base da marca: ${fmtPct(brandPct[i])} (${fmtInt(BRAND_TIER[f].qtd)} clientes)" x="${bx}" y="${padT+plotH-bH}" width="${barW}" height="${Math.max(bH,1)}" rx="3" fill="var(--series-1)"/>`;
+    bars += `<rect class="bartarget" data-tip="${f} · piloto Giftback: ${fmtPct(pilotPct[i])} (${fmtInt(pilotTier[f].qtd)} clientes)" x="${px}" y="${padT+plotH-pH}" width="${barW}" height="${Math.max(pH,1)}" rx="3" fill="var(--series-2)"/>`;
+    bars += `<text x="${gx}" y="${padT+plotH+16}" font-size="10.5" fill="var(--text-secondary)" text-anchor="middle" transform="rotate(18 ${gx} ${padT+plotH+16})">${shortLabel}</text>`;
+  });
+  const baselineLn = `<line x1="${padL}" y1="${padT+plotH}" x2="${W-20}" y2="${padT+plotH}" stroke="var(--baseline)" stroke-width="1"/>`;
+  svg.innerHTML = gridlines + bars + baselineLn;
+  svg.querySelectorAll('.bartarget').forEach(el => barTip(el, el.getAttribute('data-tip')));
+
+  // Detailed table
+  const maxFreqAll = Math.max(...faixas.map(f=>BRAND_TIER[f].freq), ...faixas.map(f=>pilotTier[f].freq));
+  const maxTmAll = Math.max(...faixas.map(f=>BRAND_TIER[f].tm), ...faixas.map(f=>pilotTier[f].tm));
+  const rows = faixas.map(f => {
+    const b = BRAND_TIER[f], p = pilotTier[f];
+    return `<tr>
+      <td>${f}</td>
+      <td class="num">${fmtInt(b.qtd)}</td>
+      <td class="num">${fmtInt(p.qtd)}</td>
+      <td class="meter-cell">${meterCell(b.freq, maxFreqAll, v=>fmtDec(v,1))}</td>
+      <td class="meter-cell">${meterCell(p.freq, maxFreqAll, v=>fmtDec(v,1))}</td>
+      <td class="meter-cell">${meterCell(b.tm, maxTmAll, v=>fmtBRLShort(v))}</td>
+      <td class="meter-cell">${meterCell(p.tm, maxTmAll, v=>fmtBRLShort(v))}</td>
+    </tr>`;
+  }).join('');
+  document.getElementById('tierTable').innerHTML = `
+    <thead><tr>
+      <th>Faixa</th>
+      <th style="text-align:right">Clientes (marca)</th>
+      <th style="text-align:right">Clientes (piloto)</th>
+      <th>Frequência (marca)</th>
+      <th>Frequência (piloto)</th>
+      <th>TM (marca)</th>
+      <th>TM (piloto)</th>
+    </tr></thead>
+    <tbody>${rows}</tbody>`;
+}
+
+function renderTrendGrid() {
+  const metrics = [
+    {key:'qtd', label:'Clientes ativos', fmt: v => fmtInt(v)},
+    {key:'valor', label:'Faturamento', fmt: v => fmtBRLShort(v)},
+    {key:'freq', label:'Frequência média', fmt: v => fmtDec(v,2)},
+    {key:'tm', label:'Ticket médio', fmt: v => fmtBRLShort(v)}
+  ];
+  const W = 240, H = 60, pad = 6;
+  const grid = metrics.map(m => {
+    const vals = TREND_2026.map(t => t[m.key]);
+    const min = Math.min(...vals), max = Math.max(...vals);
+    const range = (max-min) || 1;
+    const stepX = (W - pad*2) / (vals.length-1);
+    const pts = vals.map((v,i) => [pad + i*stepX, H - pad - ((v-min)/range)*(H-pad*2)]);
+    const path = 'M ' + pts.map(p=>p.join(',')).join(' L ');
+    const last = vals[vals.length-1];
+    const first = vals[0];
+    const delta = ((last-first)/first*100);
+    const deltaColor = delta >= 0 ? 'var(--good-text)' : 'var(--critical)';
+    const deltaSign = delta >= 0 ? '+' : '';
+    return `<div class="mini-card">
+      <div class="label">${m.label}</div>
+      <div class="value">${m.fmt(last)} <span style="font-size:11px;font-weight:550;color:${deltaColor}">(${deltaSign}${fmtDec(delta,1)}% vs jan)</span></div>
+      <svg width="100%" height="${H}" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" style="overflow:visible;margin-top:4px">
+        <path d="${path}" fill="none" stroke="var(--series-1)" stroke-width="2" vector-effect="non-scaling-stroke"/>
+        <circle cx="${pts[pts.length-1][0]}" cy="${pts[pts.length-1][1]}" r="4" fill="var(--series-1)"/>
+      </svg>
+      <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text-muted);margin-top:2px"><span>jan</span><span>jul</span></div>
+    </div>`;
+  }).join('');
+  document.getElementById('trendGrid').innerHTML = grid;
+}
+
+function renderAll() {
+  renderKPIs();
+  renderDailyCharts();
+  renderFreqChart();
+  renderImpactChart();
+  renderTierSection();
+}
+
+document.getElementById('scopeToggle').addEventListener('click', e => {
+  const btn = e.target.closest('button');
+  if (!btn) return;
+  document.querySelectorAll('#scopeToggle button').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  scope = btn.getAttribute('data-scope');
+  renderAll();
+});
+
+document.getElementById('themeToggle').addEventListener('click', () => {
+  const root = document.documentElement;
+  const isDark = root.getAttribute('data-theme') === 'dark';
+  root.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  document.getElementById('themeToggle').textContent = isDark ? 'Modo escuro' : 'Modo claro';
+});
+
+window.addEventListener('resize', renderAll);
+
+renderAll();
+renderTrendGrid();
+</script>
+</body>
+</html>
