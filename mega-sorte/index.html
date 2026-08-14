@@ -322,21 +322,24 @@ document.addEventListener('DOMContentLoaded', function(){
     <!-- RESPOSTA DIRETA — meta norte -->
     <div class="card" id="respostaDiretaCard" style="border:2px solid var(--series-1)">
       <h2>Resposta direta: estamos aumentando o que a Mega Loteria pediu?</h2>
-      <p class="desc">Olhando os 2 sites juntos (Mega Loterias + Sorte Sorte, cada um um site independente) nos 4 dias de piloto — a meta do cliente é fazer apostadores de 1-2-3x/mês virarem recorrentes e, com o tempo, subirem de faixa de valor (Fx1→Fx8).</p>
+      <p class="desc">Mega Loterias e Sorte Sorte são 2 sites independentes — os números abaixo são <strong style="color:var(--text-primary)">sempre mostrados separados por site, nunca somados</strong>. A meta do cliente é fazer apostadores de 1-2-3x/mês virarem recorrentes e, com o tempo, subirem de faixa de valor (Fx1→Fx8).</p>
       <div class="insight good" style="margin-bottom:10px">
-        <div class="num" id="respFreqNum">—</div>
-        <p><strong style="color:var(--text-primary)">Frequência / recorrência: SIM — sinal forte, já visível no piloto.</strong> <span id="respFreqText"></span></p>
+        <div class="num" id="respFreqNumMega">—</div>
+        <p><strong style="color:var(--text-primary)">Mega Loterias — Frequência / recorrência: SIM, sinal forte.</strong> <span id="respFreqTextMega"></span></p>
+      </div>
+      <div class="insight good" style="margin-bottom:10px">
+        <div class="num" id="respFreqNumSorte">—</div>
+        <p><strong style="color:var(--text-primary)">Sorte Sorte — Frequência / recorrência: SIM, sinal forte.</strong> <span id="respFreqTextSorte"></span></p>
       </div>
       <div class="insight warn">
         <div class="num" style="font-size:15px; min-width:92px">AINDA NÃO</div>
-        <p><strong style="color:var(--text-primary)">Subida de faixa (Fx1→Fx8): ainda não é possível provar.</strong> Temos só 4 dias de piloto (11-14/ago) e a base do Giftback não guarda o histórico de cada cliente antes de 11/ago — não dá para comparar a faixa do <em>mesmo</em> cliente antes e depois ainda, só perfis diferentes (marca toda vs. piloto). Para responder isso de verdade precisamos acompanhar os mesmos clientes por várias semanas (próximo passo, ver seção de recomendações no fim do painel).</p>
+        <p><strong style="color:var(--text-primary)">Subida de faixa (Fx1→Fx8), nos dois sites: ainda não é possível provar.</strong> Temos só 4 dias de piloto (11-14/ago) e a base do Giftback não guarda o histórico de cada cliente antes de 11/ago — não dá para comparar a faixa do <em>mesmo</em> cliente antes e depois ainda, só perfis diferentes (benchmark vs. piloto). Para responder isso de verdade precisamos acompanhar os mesmos clientes por várias semanas, site por site (próximo passo, ver seção de recomendações no fim do painel).</p>
       </div>
     </div>
 
     <div class="segmented" id="scopeToggle">
       <button class="active" data-scope="mega">Mega Loterias</button>
       <button data-scope="sorte">Sorte Sorte</button>
-      <button data-scope="combo">Combinado</button>
     </div>
 
     <!-- KPI CARDS -->
@@ -393,12 +396,12 @@ document.addEventListener('DOMContentLoaded', function(){
       </div>
     </div>
 
-    <h3 class="section-h">Dados gerais da marca (benchmark Mega Loteria)</h3>
-    <p class="section-sub">Base própria da Mega Loteria (todas as lojas/canais, não só o piloto Giftback) — mês de jul/2026, o mês cheio mais recente antes do piloto começar. É o "norte" que o cliente já usa internamente.</p>
+    <h3 class="section-h">Dados gerais — site Mega Loterias (benchmark interno, jul/2026)</h3>
+    <p class="section-sub">Vem da planilha interna que o cliente enviou — cobre <strong style="color:var(--text-primary)">só o site Mega Loterias</strong> (todos os canais próprios da Mega Loterias, não só o piloto Giftback), mês de jul/2026, o mês cheio mais recente antes do piloto começar. É o "norte" que o cliente já usa internamente para <em>este site</em>. <strong style="color:var(--text-primary)">Ainda não temos uma planilha equivalente para Sorte Sorte</strong> — assim que o cliente enviar, adicionamos o mesmo benchmark para lá.</p>
 
     <div class="card">
-      <h2>KPIs gerais — jul/2026</h2>
-      <p class="desc">Base completa da marca: 28.791 clientes ativos no mês</p>
+      <h2>KPIs gerais — Mega Loterias, jul/2026</h2>
+      <p class="desc">Base do site Mega Loterias: 28.791 clientes ativos no mês</p>
       <div class="kpi-grid">
         <div class="tile"><div class="label">Pedidos (transações)</div><div class="value">136.634</div></div>
         <div class="tile"><div class="label">Faturamento</div><div class="value">R$ 2.729.619,40</div></div>
@@ -410,33 +413,42 @@ document.addEventListener('DOMContentLoaded', function(){
     </div>
 
     <div class="card">
-      <h2>Tendência mensal 2026 (jan-jul)</h2>
-      <p class="desc">Últimos 7 meses fechados da marca — contexto antes do piloto Giftback nesses 2 sites</p>
+      <h2>Tendência mensal 2026 (jan-jul) — Mega Loterias</h2>
+      <p class="desc">Últimos 7 meses fechados do site Mega Loterias — contexto antes do piloto Giftback</p>
       <div class="mini-grid" id="trendGrid"></div>
     </div>
 
     <div class="card">
-      <h2>Distribuição de clientes por faixa de valor (Fx1-Fx8)</h2>
-      <p class="desc">Mesma régua de faixas que a Mega Loteria já usa internamente — base da marca (jul/2026) vs. perfil de quem já transacionou no piloto Giftback</p>
+      <h2>Distribuição de clientes por faixa de valor (Fx1-Fx8) — Mega Loterias</h2>
+      <p class="desc">Mesma régua de faixas que a Mega Loteria já usa internamente — benchmark do site Mega Loterias (jul/2026) vs. perfil de quem já transacionou no piloto Giftback <strong style="color:var(--text-primary)">neste mesmo site</strong> (não inclui Sorte Sorte)</p>
       <div class="legend">
-        <span class="legend-item"><span class="swatch" style="background:var(--series-1)"></span>Base da marca (jul/2026)</span>
-        <span class="legend-item"><span class="swatch" style="background:var(--series-2)"></span>Piloto Giftback (11-14/ago)</span>
+        <span class="legend-item"><span class="swatch" style="background:var(--series-1)"></span>Benchmark Mega Loterias (jul/2026)</span>
+        <span class="legend-item"><span class="swatch" style="background:var(--series-2)"></span>Piloto Giftback Mega Loterias (11-14/ago)</span>
       </div>
       <svg id="tierShareChart" width="100%" height="260" style="overflow:visible"></svg>
       <div class="insight warn">
         <div class="num" style="font-size:16px; min-width:70px">Ainda não</div>
-        <p>é possível provar migração de faixa (cliente subindo de Fx1 para Fx2, etc.) porque o piloto Giftback só tem 4 dias — a base "silver.giftback.bonus" não tem histórico de antes de 11/ago para comparar o mesmo cliente ao longo do tempo. O gráfico acima compara <strong style="color:var(--text-primary)">perfis diferentes</strong> (marca toda vs. só os 2 sites piloto em 4 dias), não o mesmo cliente antes/depois — por isso a base piloto aparece concentrada na Fx1 (é o público que já transaciona nesses 2 sites, ainda sem tempo de resposta do bônus).</p>
+        <p>é possível provar migração de faixa (cliente subindo de Fx1 para Fx2, etc.) porque o piloto Giftback só tem 4 dias — a base "silver.giftback.bonus" não tem histórico de antes de 11/ago para comparar o mesmo cliente ao longo do tempo. O gráfico acima compara <strong style="color:var(--text-primary)">perfis diferentes, dentro do mesmo site Mega Loterias</strong> (benchmark de jul/2026 vs. só os 4 dias de piloto), não o mesmo cliente antes/depois — por isso a base piloto aparece concentrada na Fx1 (é o público que já transaciona no site, ainda sem tempo de resposta do bônus).</p>
       </div>
       <details class="tableview" open>
-        <summary>Ver tabela completa por faixa (clientes, frequência, ticket médio)</summary>
-        <p class="desc" style="margin-top:8px;margin-bottom:2px"><strong style="color:var(--text-primary)">Como ler esta tabela:</strong> "marca" = base completa da Mega Loteria em jul/2026 (todas as lojas/canais da marca, mês de referência). "piloto" = só os 2 sites do piloto Giftback (Mega Loterias e Sorte Sorte, cada um um site independente), 11-14/ago/2026. "Clientes" = quantos clientes distintos caem naquela faixa de valor. "Frequência" = média de transações por cliente no período (mês para a marca, 4 dias para o piloto — não são diretamente comparáveis em volume, só em perfil). "TM" = ticket médio (R$ por transação). Passe o mouse sobre os títulos das colunas para ver a explicação também ali.</p>
+        <summary>Ver tabela completa por faixa (clientes, frequência, ticket médio) — Mega Loterias</summary>
+        <p class="desc" style="margin-top:8px;margin-bottom:2px"><strong style="color:var(--text-primary)">Como ler esta tabela:</strong> tudo aqui é do site <strong style="color:var(--text-primary)">Mega Loterias apenas</strong> (Sorte Sorte não entra nesta comparação — veja a seção seguinte). "Benchmark" = base completa de Mega Loterias em jul/2026 (mês de referência, antes do piloto). "Piloto" = só o piloto Giftback de Mega Loterias, 11-14/ago/2026. "Clientes" = quantos clientes distintos caem naquela faixa de valor. "Frequência" = média de transações por cliente no período (mês para o benchmark, 4 dias para o piloto — não são diretamente comparáveis em volume, só em perfil). "TM" = ticket médio (R$ por transação). Passe o mouse sobre os títulos das colunas para ver a explicação também ali.</p>
         <table class="datatbl" id="tierTable"></table>
       </details>
     </div>
 
     <div class="card">
-      <h2>Meta que a Mega Loteria já definiu (norte do projeto)</h2>
-      <p class="desc">Simulação de ROI da própria marca para o programa de bônus — é a meta que precisamos bater</p>
+      <h2>Distribuição de clientes por faixa de valor (Fx1-Fx8) — Sorte Sorte</h2>
+      <p class="desc">Piloto Giftback do site Sorte Sorte, 11-14/ago/2026 — <strong style="color:var(--text-primary)">sem comparação com benchmark de marca</strong>, porque ainda não temos a planilha interna de Sorte Sorte (só temos a de Mega Loterias). Assim que o cliente enviar os dados gerais de Sorte Sorte, adicionamos a mesma comparação benchmark-vs-piloto que já existe acima para Mega Loterias.</p>
+      <details class="tableview" open>
+        <summary>Ver tabela por faixa — Sorte Sorte (piloto Giftback)</summary>
+        <table class="datatbl" id="tierTableSorte"></table>
+      </details>
+    </div>
+
+    <div class="card">
+      <h2>Meta que a Mega Loteria já definiu para o site Mega Loterias (norte do projeto)</h2>
+      <p class="desc">Simulação de ROI da planilha própria de Mega Loterias para o programa de bônus — é a meta que precisamos bater <strong style="color:var(--text-primary)">neste site</strong>. Não há meta equivalente registrada para Sorte Sorte ainda.</p>
       <div class="roi-grid">
         <div class="tile accent"><div class="label">Meta de crescimento — clientes ativos</div><div class="value">+5%</div></div>
         <div class="tile accent"><div class="label">Meta de crescimento — frequência</div><div class="value">+15%</div></div>
@@ -446,8 +458,8 @@ document.addEventListener('DOMContentLoaded', function(){
       <div class="kpi-grid">
         <div class="tile"><div class="label">Receita incremental projetada</div><div class="value">R$ 1.060.798,34</div></div>
         <div class="tile"><div class="label">Custo projetado (comissão + cashback)</div><div class="value">R$ 676.027,28</div></div>
-        <div class="tile"><div class="label">Frequência observada hoje (resgatou vs. não)</div><div class="value" style="color:var(--good-text)">+150%</div><div class="sub">2,5× já bate a meta de +15% — sinal forte, ainda em amostra pequena</div></div>
-        <div class="tile"><div class="label">Taxa de uso do bônus (tendência)</div><div class="value" style="color:var(--good-text)">14% → 62%</div><div class="sub">crescendo dia a dia desde o início do piloto</div></div>
+        <div class="tile"><div class="label">Frequência observada hoje — Mega Loterias (resgatou vs. não)</div><div class="value" style="color:var(--good-text)" id="metaFreqMega">—</div><div class="sub">já bate a meta de +15% — sinal forte, ainda em amostra pequena</div></div>
+        <div class="tile"><div class="label">Frequência observada hoje — Sorte Sorte (resgatou vs. não)</div><div class="value" style="color:var(--good-text)" id="metaFreqSorte">—</div><div class="sub">sem meta própria registrada ainda, mas o mesmo padrão aparece neste site</div></div>
       </div>
     </div>
 
@@ -457,7 +469,7 @@ document.addEventListener('DOMContentLoaded', function(){
       <p class="desc">Interpretação aplicada ao objetivo do cliente: converter apostadores de 1-3x em recorrentes e subir de faixa de valor</p>
       <ul class="reco-list">
         <li><span class="n">1</span><span>O maior segmento em ambos os sites é quem aposta <strong style="color:var(--text-primary)">apenas 1x</strong> no período (55% da base da Mega Loterias, 52% da Sorte Sorte) — é aqui que está o maior volume de clientes para trabalhar, não no topo da pirâmide.</span></li>
-        <li><span class="n">2</span><span>Quem resgata bônus aposta em média <strong style="color:var(--text-primary)">2,5x mais</strong> no período do que quem não resgata — isso já bate 10x a meta de +15% de frequência que a própria marca definiu. Ainda é sinal contemporâneo (mesmo período), não prova de causalidade, mas é o indicador mais forte disponível hoje.</span></li>
+        <li><span class="n">2</span><span>Em ambos os sites, quem resgata bônus aposta em média <strong style="color:var(--text-primary)">2,5x mais</strong> no período do que quem não resgata — em Mega Loterias isso já bate cerca de 10x a meta de +15% de frequência que a própria marca definiu para esse site (Sorte Sorte ainda não tem meta própria registrada, mas mostra o mesmo padrão). Ainda é sinal contemporâneo (mesmo período), não prova de causalidade, mas é o indicador mais forte disponível hoje, em cada site.</span></li>
         <li><span class="n">3</span><span>A taxa de uso do bônus está subindo todos os dias desde o lançamento (14% → 34% → 56% → 62%) — sinal de adoção crescente, o que tende a puxar frequência e, com o tempo, o ticket médio (Fx) junto.</span></li>
         <li><span class="n">4</span><span><strong style="color:var(--text-primary)">Para provar subida de faixa de verdade</strong>, precisamos acompanhar os mesmos clientes semana a semana (não só o agregado): pegar a faixa de cada cliente ativo no piloto hoje e comparar com a faixa dele daqui a 4-6 semanas. Isso vira possível assim que tivermos mais histórico do Giftback — é o próximo passo natural deste painel.</span></li>
         <li><span class="n">5</span><span>Ação sugerida: criar campanhas de bônus segmentadas para clientes de 1x e 2x apostas que ainda não resgataram — esse grupo tem quase o dobro de clientes do grupo "resgatou" em ambos os sites.</span></li>
@@ -466,8 +478,8 @@ document.addEventListener('DOMContentLoaded', function(){
 
     <footer class="notes">
       <strong>Sobre Mega Loterias e Sorte Sorte:</strong> são 2 sites separados e independentes (cada um é 1 único site, não redes com múltiplas lojas físicas), ambos rodando o piloto Giftback sob a mesma marca MEGA LOTERIA (código 7008) — Mega Loterias com código Giftback 57440, Sorte Sorte com código 57448.<br>
-      <strong>Limitações dos dados nesta versão:</strong> o Giftback só está ativo nesses 2 sites desde 11/ago/2026 — todas as métricas "piloto Giftback" cobrem apenas 4 dias corridos, não um mês fechado. Isso é normal em fase de lançamento, mas significa que os números ainda vão oscilar bastante. Os "dados gerais da marca" vêm da planilha interna da Mega Loteria (base completa da marca, todas as lojas/canais da marca) e usam jul/2026 como mês de referência (mês cheio mais recente); essa base é maior e mais ampla que os 2 sites do piloto, então as comparações de perfil por faixa são direcionais, não uma migração real do mesmo cliente. O indicador de "% de engajamento" (vendas com bônus vs. sem bônus) continua não preenchido na fonte do Giftback para esses dois sites.<br>
-      <strong>Como atualizar:</strong> este painel é uma foto de hoje. Não há conexão ao vivo com o banco de dados a partir do seu navegador — quando quiser números novos, me peça para "atualizar o dashboard" nesta conversa e eu busco os dados mais recentes (Giftback + planilha da marca, se houver uma nova versão) e atualizo este mesmo artefato.
+      <strong>Limitações dos dados nesta versão:</strong> o Giftback só está ativo nesses 2 sites desde 11/ago/2026 — todas as métricas "piloto Giftback" cobrem apenas 4 dias corridos, não um mês fechado. Isso é normal em fase de lançamento, mas significa que os números ainda vão oscilar bastante. Os "dados gerais" (KPIs jul/2026, tendência mensal, benchmark de faixa, meta/ROI) vêm da planilha interna que o cliente enviou e cobrem <strong style="color:var(--text-primary)">só o site Mega Loterias</strong> — ainda não temos o equivalente para Sorte Sorte, por isso essa seção não tem uma versão "benchmark" para Sorte Sorte (só a distribuição de faixa do piloto, sem comparação). Todos os números do piloto Giftback (KPIs, frequência, impacto do resgate, faixas) são sempre mostrados separados por site — Mega Loterias e Sorte Sorte nunca são somados neste painel. O indicador de "% de engajamento" (vendas com bônus vs. sem bônus) continua não preenchido na fonte do Giftback para esses dois sites.<br>
+      <strong>Como atualizar:</strong> este painel é uma foto de hoje. Não há conexão ao vivo com o banco de dados a partir do seu navegador — quando quiser números novos, me peça para "atualizar o dashboard" nesta conversa e eu busco os dados mais recentes (Giftback + planilha de Mega Loterias, se houver uma nova versão, e a de Sorte Sorte assim que existir) e atualizo este mesmo artefato.
     </footer>
 
   </div>
@@ -539,55 +551,12 @@ const DATA = {
   }
 };
 
-function sumTier(a,b) {
-  const out = {};
-  for (const k of Object.keys(a)) {
-    const qtd = a[k].qtd + b[k].qtd;
-    const valor = a[k].valor + b[k].valor;
-    const trans = a[k].trans + b[k].trans;
-    out[k] = {
-      qtd, valor, trans,
-      freq: qtd ? trans/qtd : 0,
-      tm: trans ? valor/trans : 0,
-      rmc: qtd ? valor/qtd : 0
-    };
-  }
-  return out;
-}
+// IMPORTANTE: Mega Loterias e Sorte Sorte são 2 sites separados e independentes.
+// Este painel NUNCA soma os dois — todo dado é sempre mostrado por site.
+// (Não existe DATA.combo / visão "combinada" neste arquivo, de propósito.)
 
-DATA.combo = {
-  label: "Combinado (Mega Loteria — marca 7008)",
-  kpis: {
-    gerado_qtd: DATA.mega.kpis.gerado_qtd + DATA.sorte.kpis.gerado_qtd,
-    gerado_valor: DATA.mega.kpis.gerado_valor + DATA.sorte.kpis.gerado_valor,
-    resgatado_qtd: DATA.mega.kpis.resgatado_qtd + DATA.sorte.kpis.resgatado_qtd,
-    resgatado_valor: DATA.mega.kpis.resgatado_valor + DATA.sorte.kpis.resgatado_valor,
-    perdido_qtd: DATA.mega.kpis.perdido_qtd + DATA.sorte.kpis.perdido_qtd,
-    perdido_valor: 0,
-    ticket_medio: 8.50,
-    receita_incremental: DATA.mega.kpis.receita_incremental + DATA.sorte.kpis.receita_incremental,
-    tempo_medio_resgate: 0.78,
-    taxa_resgate: (DATA.mega.kpis.resgatado_qtd + DATA.sorte.kpis.resgatado_qtd) / (DATA.mega.kpis.gerado_qtd + DATA.sorte.kpis.gerado_qtd),
-    taxa_perda: (DATA.mega.kpis.perdido_qtd + DATA.sorte.kpis.perdido_qtd) / (DATA.mega.kpis.gerado_qtd + DATA.sorte.kpis.gerado_qtd),
-    clientes_ativos: DATA.mega.kpis.clientes_ativos + DATA.sorte.kpis.clientes_ativos
-  },
-  freq: {
-    "1x": DATA.mega.freq["1x"] + DATA.sorte.freq["1x"],
-    "2x": DATA.mega.freq["2x"] + DATA.sorte.freq["2x"],
-    "3x": DATA.mega.freq["3x"] + DATA.sorte.freq["3x"],
-    "4+": DATA.mega.freq["4+"] + DATA.sorte.freq["4+"]
-  },
-  impact: {
-    resgatou: { clientes: DATA.mega.impact.resgatou.clientes + DATA.sorte.impact.resgatou.clientes,
-                media: ((DATA.mega.impact.resgatou.clientes*DATA.mega.impact.resgatou.media) + (DATA.sorte.impact.resgatou.clientes*DATA.sorte.impact.resgatou.media)) / (DATA.mega.impact.resgatou.clientes + DATA.sorte.impact.resgatou.clientes) },
-    nao: { clientes: DATA.mega.impact.nao.clientes + DATA.sorte.impact.nao.clientes,
-                media: ((DATA.mega.impact.nao.clientes*DATA.mega.impact.nao.media) + (DATA.sorte.impact.nao.clientes*DATA.sorte.impact.nao.media)) / (DATA.mega.impact.nao.clientes + DATA.sorte.impact.nao.clientes) }
-  },
-  daily: DATA.mega.daily.map((row,i) => ({ d: row.d, gerado: row.gerado + DATA.sorte.daily[i].gerado, usado: row.usado + DATA.sorte.daily[i].usado })),
-  tier: sumTier(DATA.mega.tier, DATA.sorte.tier)
-};
-
-// Brand-wide benchmark (jul/2026, whole Mega Loteria brand — all stores/channels)
+// Benchmark interno do site Mega Loterias (jul/2026) — vem da planilha do cliente.
+// Cobre SÓ Mega Loterias; ainda não existe planilha equivalente para Sorte Sorte.
 const BRAND_TIER = {
   "Fx1 Até R$20":        {qtd:11707, valor:130896.15, trans:15336, freq:1.31, tm:8.54,  rmc:11.18},
   "Fx2 R$21-R$50":       {qtd:6389,  valor:216654,    trans:18677, freq:2.92, tm:11.60, rmc:33.91},
@@ -600,7 +569,7 @@ const BRAND_TIER = {
 };
 const BRAND_TOTAL = { clientes: 28791, valor: 2729619.40, trans: 136634, freq: 4.75, tm: 19.98, rmc: 94.81 };
 
-// Monthly trend 2026 (brand-wide, from the client's own tracking spreadsheet)
+// Monthly trend 2026 — Mega Loterias only, from the client's own tracking spreadsheet
 const TREND_2026 = [
   {mes:"jan", qtd:31195, valor:2685482.63, trans:145081, freq:4.65, tm:18.51},
   {mes:"fev", qtd:28600, valor:2369689.75, trans:115940, freq:4.05, tm:20.44},
@@ -796,8 +765,11 @@ function meterCell(val, max, formatter) {
 }
 
 function renderTierSection() {
+  // Este gráfico/tabela é SEMPRE Mega Loterias vs. o benchmark de Mega Loterias —
+  // não depende do toggle mega/sorte acima, porque só existe planilha benchmark
+  // para Mega Loterias. Sorte Sorte tem sua própria seção (renderSorteTierSection).
   const brandTotal = BRAND_TOTAL.clientes;
-  const pilotTier = DATA[scope].tier;
+  const pilotTier = DATA.mega.tier;
   const pilotTotal = Object.values(pilotTier).reduce((a,t)=>a+t.qtd,0);
   const faixas = Object.keys(BRAND_TIER);
 
@@ -825,8 +797,8 @@ function renderTierSection() {
     const bH = (brandPct[i]/maxPct)*plotH, pH = (pilotPct[i]/maxPct)*plotH;
     const bx = gx - barW - gap/2, px = gx + gap/2;
     const shortLabel = f.replace(/^Fx\d\s*/,'').replace('Até R$20','Até 20').replace('Acima R$5.000','>5.000');
-    bars += `<rect class="bartarget" data-tip="${f} · base da marca: ${fmtPct(brandPct[i])} (${fmtInt(BRAND_TIER[f].qtd)} clientes)" x="${bx}" y="${padT+plotH-bH}" width="${barW}" height="${Math.max(bH,1)}" rx="3" fill="var(--series-1)"/>`;
-    bars += `<rect class="bartarget" data-tip="${f} · piloto Giftback: ${fmtPct(pilotPct[i])} (${fmtInt(pilotTier[f].qtd)} clientes)" x="${px}" y="${padT+plotH-pH}" width="${barW}" height="${Math.max(pH,1)}" rx="3" fill="var(--series-2)"/>`;
+    bars += `<rect class="bartarget" data-tip="${f} · benchmark Mega Loterias (jul/2026): ${fmtPct(brandPct[i])} (${fmtInt(BRAND_TIER[f].qtd)} clientes)" x="${bx}" y="${padT+plotH-bH}" width="${barW}" height="${Math.max(bH,1)}" rx="3" fill="var(--series-1)"/>`;
+    bars += `<rect class="bartarget" data-tip="${f} · piloto Giftback Mega Loterias: ${fmtPct(pilotPct[i])} (${fmtInt(pilotTier[f].qtd)} clientes)" x="${px}" y="${padT+plotH-pH}" width="${barW}" height="${Math.max(pH,1)}" rx="3" fill="var(--series-2)"/>`;
     bars += `<text x="${gx}" y="${padT+plotH+16}" font-size="10.5" fill="var(--text-secondary)" text-anchor="middle" transform="rotate(18 ${gx} ${padT+plotH+16})">${shortLabel}</text>`;
   });
   const baselineLn = `<line x1="${padL}" y1="${padT+plotH}" x2="${W-20}" y2="${padT+plotH}" stroke="var(--baseline)" stroke-width="1"/>`;
@@ -851,12 +823,41 @@ function renderTierSection() {
   document.getElementById('tierTable').innerHTML = `
     <thead><tr>
       <th title="Faixa de valor (Fx1-Fx8), mesma régua que a Mega Loteria já usa internamente">Faixa</th>
-      <th style="text-align:right" title="Nº de clientes distintos nesta faixa, base completa da marca (todas as lojas/canais) em jul/2026">Clientes (marca)</th>
-      <th style="text-align:right" title="Nº de clientes distintos nesta faixa, só os 2 sites do piloto Giftback (11-14/ago/2026)">Clientes (piloto)</th>
-      <th title="Transações por cliente no mês (jul/2026), base completa da marca">Frequência (marca)</th>
-      <th title="Transações por cliente nos 4 dias de piloto Giftback (11-14/ago/2026)">Frequência (piloto)</th>
-      <th title="Ticket médio (R$ por transação), base completa da marca em jul/2026">TM (marca)</th>
-      <th title="Ticket médio (R$ por transação), só os 2 sites do piloto Giftback">TM (piloto)</th>
+      <th style="text-align:right" title="Nº de clientes distintos nesta faixa, base completa do site Mega Loterias em jul/2026">Clientes (benchmark)</th>
+      <th style="text-align:right" title="Nº de clientes distintos nesta faixa, piloto Giftback de Mega Loterias (11-14/ago/2026)">Clientes (piloto)</th>
+      <th title="Transações por cliente no mês (jul/2026), base completa de Mega Loterias">Frequência (benchmark)</th>
+      <th title="Transações por cliente nos 4 dias de piloto Giftback (11-14/ago/2026), Mega Loterias">Frequência (piloto)</th>
+      <th title="Ticket médio (R$ por transação), base completa de Mega Loterias em jul/2026">TM (benchmark)</th>
+      <th title="Ticket médio (R$ por transação), piloto Giftback de Mega Loterias">TM (piloto)</th>
+    </tr></thead>
+    <tbody>${rows}</tbody>`;
+}
+
+function renderSorteTierSection() {
+  // Sorte Sorte não tem planilha benchmark própria ainda — mostramos só a
+  // distribuição de faixa do piloto Giftback deste site, sem comparação.
+  const pilotTier = DATA.sorte.tier;
+  const faixas = Object.keys(pilotTier);
+  const pilotTotal = Object.values(pilotTier).reduce((a,t)=>a+t.qtd,0);
+  const maxFreq = Math.max(...faixas.map(f=>pilotTier[f].freq));
+  const maxTm = Math.max(...faixas.map(f=>pilotTier[f].tm));
+  const rows = faixas.map(f => {
+    const p = pilotTier[f];
+    return `<tr>
+      <td>${f}</td>
+      <td class="num">${fmtInt(p.qtd)}</td>
+      <td class="num">${pilotTotal ? fmtPct(p.qtd/pilotTotal) : '—'}</td>
+      <td class="meter-cell">${meterCell(p.freq, maxFreq, v=>fmtDec(v,1))}</td>
+      <td class="meter-cell">${meterCell(p.tm, maxTm, v=>fmtBRLShort(v))}</td>
+    </tr>`;
+  }).join('');
+  document.getElementById('tierTableSorte').innerHTML = `
+    <thead><tr>
+      <th title="Faixa de valor (Fx1-Fx8), mesma régua que a Mega Loteria já usa internamente">Faixa</th>
+      <th style="text-align:right" title="Nº de clientes distintos nesta faixa, piloto Giftback de Sorte Sorte (11-14/ago/2026)">Clientes (piloto)</th>
+      <th style="text-align:right" title="% do total de clientes do piloto Sorte Sorte nesta faixa">% do piloto</th>
+      <th title="Transações por cliente nos 4 dias de piloto Giftback (11-14/ago/2026), Sorte Sorte">Frequência (piloto)</th>
+      <th title="Ticket médio (R$ por transação), piloto Giftback de Sorte Sorte">TM (piloto)</th>
     </tr></thead>
     <tbody>${rows}</tbody>`;
 }
@@ -894,14 +895,25 @@ function renderTrendGrid() {
   document.getElementById('trendGrid').innerHTML = grid;
 }
 
-function renderRespostaDireta() {
-  const d = DATA.combo.impact;
+function respostaDiretaSite(site, numId, textId, metaId, temMetaPropria) {
+  const d = DATA[site].impact;
   const mult = d.resgatou.media / d.nao.media;
   const liftPct = (mult - 1) * 100;
   const metaMultiple = liftPct / 15;
-  document.getElementById('respFreqNum').textContent = fmtDec(mult,1) + "×";
-  document.getElementById('respFreqText').textContent =
-    `Juntando os 2 sites: quem resgatou bônus apostou em média ${fmtDec(d.resgatou.media)}× no período (${fmtInt(d.resgatou.clientes)} clientes) contra ${fmtDec(d.nao.media)}× de quem não resgatou (${fmtInt(d.nao.clientes)} clientes) — um salto de +${fmtDec(liftPct,0)}% na frequência, ${fmtDec(metaMultiple,1)}× acima da meta de +15% que a própria Mega Loteria já definiu internamente. Isso ainda é uma correlação observada no mesmo período (não é uma prova de causalidade nem um efeito medido ao longo do tempo), mas é o sinal mais forte disponível hoje de que o Giftback está puxando recorrência nos dois sites.`;
+  document.getElementById(numId).textContent = fmtDec(mult,1) + "×";
+  const metaTxt = temMetaPropria
+    ? `um salto de +${fmtDec(liftPct,0)}% na frequência, ${fmtDec(metaMultiple,1)}× acima da meta de +15% que a própria Mega Loteria já definiu internamente para este site`
+    : `um salto de +${fmtDec(liftPct,0)}% na frequência (ainda não há uma meta própria de frequência registrada para Sorte Sorte, mas o padrão é o mesmo observado em Mega Loterias)`;
+  document.getElementById(textId).textContent =
+    `Quem resgatou bônus apostou em média ${fmtDec(d.resgatou.media)}× no período (${fmtInt(d.resgatou.clientes)} clientes) contra ${fmtDec(d.nao.media)}× de quem não resgatou (${fmtInt(d.nao.clientes)} clientes) — ${metaTxt}. Isso ainda é uma correlação observada no mesmo período (não é uma prova de causalidade nem um efeito medido ao longo do tempo), mas é o sinal mais forte disponível hoje de que o Giftback está puxando recorrência neste site.`;
+  if (metaId) {
+    document.getElementById(metaId).textContent = "+" + fmtDec(liftPct,0) + "%";
+  }
+}
+
+function renderRespostaDireta() {
+  respostaDiretaSite('mega', 'respFreqNumMega', 'respFreqTextMega', 'metaFreqMega', true);
+  respostaDiretaSite('sorte', 'respFreqNumSorte', 'respFreqTextSorte', 'metaFreqSorte', false);
 }
 
 function renderAll() {
@@ -910,6 +922,7 @@ function renderAll() {
   renderFreqChart();
   renderImpactChart();
   renderTierSection();
+  renderSorteTierSection();
   renderRespostaDireta();
 }
 
