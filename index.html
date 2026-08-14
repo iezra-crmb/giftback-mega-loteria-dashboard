@@ -75,10 +75,16 @@
   h1 { font-size: 22px; font-weight: 650; margin: 0 0 4px; letter-spacing: -0.01em; }
   .subtitle { color: var(--text-secondary); font-size: 13.5px; margin: 0; }
   .stamp { color: var(--text-muted); font-size: 12px; margin-top: 6px; }
-  .theme-toggle {
+  .stamp strong { color: var(--text-secondary); font-weight: 650; }
+  .header-actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: flex-start; }
+  .theme-toggle, .refresh-btn {
     border: 1px solid var(--border); background: var(--surface-1); color: var(--text-secondary);
     border-radius: 8px; padding: 7px 12px; font-size: 12.5px; cursor: pointer; white-space: nowrap;
   }
+  .refresh-btn { display: inline-flex; align-items: center; gap: 6px; color: var(--text-primary); font-weight: 600; }
+  .refresh-btn:hover, .theme-toggle:hover { background: var(--grid); }
+  .refresh-btn .spin { display: inline-block; transition: transform 0.5s ease; }
+  .refresh-btn.spinning .spin { transform: rotate(360deg); }
 
   h3.section-h { font-size: 16px; font-weight: 650; margin: 34px 0 4px; padding-top: 14px; border-top: 1px solid var(--border); }
   h3.section-h:first-of-type { border-top: none; padding-top: 0; margin-top: 8px; }
@@ -130,6 +136,8 @@
   .insight p { margin: 0; font-size: 13px; color: var(--text-secondary); line-height: 1.5; }
   .insight.warn .num { color: var(--warn); }
   .insight.warn { border-left: 3px solid var(--warn); }
+  .insight.good .num { color: var(--good-text); }
+  .insight.good { border-left: 3px solid var(--good); }
 
   .reco-list { margin: 0; padding: 0; list-style: none; }
   .reco-list li { display: flex; gap: 10px; padding: 10px 0; border-top: 1px solid var(--border); font-size: 13px; color: var(--text-secondary); line-height: 1.5; }
@@ -205,11 +213,75 @@ document.addEventListener('DOMContentLoaded', function(){
     var secure = location.protocol === 'https:' ? '; Secure' : '';
     document.cookie = name + '=' + value + '; max-age=' + maxAge + '; path=/; SameSite=Lax' + secure;
   }
-  function sha256(text) {
-    var enc = new TextEncoder().encode(text);
-    return crypto.subtle.digest('SHA-256', enc).then(function(buf){
-      return Array.prototype.map.call(new Uint8Array(buf), function(b){ return b.toString(16).padStart(2,'0'); }).join('');
-    });
+  // SHA-256 puro em JS, síncrono — não depende de crypto.subtle (que exige
+  // contexto seguro/HTTPS e é assíncrono). Funciona em qualquer navegador/protocolo.
+  function sha256(str) {
+    function rightRotate(value, amount) {
+      return (value >>> amount) | (value << (32 - amount));
+    }
+    var message = unescape(encodeURIComponent(str));
+    var maxWord = Math.pow(2, 32);
+    var result = '';
+    var words = [];
+    var asciiBitLength = message.length * 8;
+    var hash = [];
+    var k = [];
+    var primeCounter = 0;
+    var isComposite = {};
+    for (var candidate = 2; primeCounter < 64; candidate++) {
+      if (!isComposite[candidate]) {
+        for (var i = 0; i < 313; i += candidate) {
+          isComposite[i] = candidate;
+        }
+        hash[primeCounter] = (Math.pow(candidate, 0.5) * maxWord) | 0;
+        k[primeCounter++] = (Math.pow(candidate, 1 / 3) * maxWord) | 0;
+      }
+    }
+    message += '\x80';
+    while ((message.length % 64) - 56) message += '\x00';
+    for (var i = 0; i < message.length; i++) {
+      var j = message.charCodeAt(i);
+      if (j >> 8) return;
+      words[i >> 2] |= j << ((3 - i) % 4) * 8;
+    }
+    words[words.length] = ((asciiBitLength / maxWord) | 0);
+    words[words.length] = (asciiBitLength);
+
+    for (var j = 0; j < words.length;) {
+      var w = words.slice(j, j += 16);
+      var oldHash = hash.slice(0);
+      hash = hash.slice(0, 8);
+
+      for (var i = 0; i < 64; i++) {
+        var w15 = w[i - 15], w2 = w[i - 2];
+        var a = hash[0], e = hash[4];
+        var temp1 = hash[7]
+          + (rightRotate(e, 6) ^ rightRotate(e, 11) ^ rightRotate(e, 25))
+          + ((e & hash[5]) ^ ((~e) & hash[6]))
+          + k[i]
+          + (w[i] = (i < 16) ? w[i] : (
+              w[i - 16]
+              + (rightRotate(w15, 7) ^ rightRotate(w15, 18) ^ (w15 >>> 3))
+              + w[i - 7]
+              + (rightRotate(w2, 17) ^ rightRotate(w2, 19) ^ (w2 >>> 10))
+            ) | 0
+          );
+        var temp2 = (rightRotate(a, 2) ^ rightRotate(a, 13) ^ rightRotate(a, 22))
+          + ((a & hash[1]) ^ (a & hash[2]) ^ (hash[1] & hash[2]));
+        hash = [(temp1 + temp2) | 0].concat(hash);
+        hash[4] = (hash[4] + temp1) | 0;
+      }
+      for (var i = 0; i < 8; i++) {
+        hash[i] = (hash[i] + oldHash[i]) | 0;
+      }
+    }
+    for (var i = 0; i < 8; i++) {
+      for (var j = 3; j + 1; j--) {
+        var b = (hash[i] >> (j * 8)) & 255;
+        result += ((b < 16) ? 0 : '') + b.toString(16);
+      }
+    }
+    return result;
   }
   function unlock() {
     document.getElementById('gateOverlay').style.display = 'none';
@@ -221,14 +293,13 @@ document.addEventListener('DOMContentLoaded', function(){
 
   function tryLogin() {
     var val = document.getElementById('gatePassword').value;
-    sha256(val).then(function(hash){
-      if (hash === EXPECTED_HASH) {
-        setCookie(COOKIE_NAME, hash, DAYS);
-        unlock();
-      } else {
-        document.getElementById('gateError').textContent = 'Senha incorreta.';
-      }
-    });
+    var hash = sha256(val);
+    if (hash === EXPECTED_HASH) {
+      setCookie(COOKIE_NAME, hash, DAYS);
+      unlock();
+    } else {
+      document.getElementById('gateError').textContent = 'Senha incorreta.';
+    }
   }
   document.getElementById('gateSubmit').addEventListener('click', tryLogin);
   document.getElementById('gatePassword').addEventListener('keydown', function(e){ if (e.key === 'Enter') tryLogin(); });
@@ -239,11 +310,28 @@ document.addEventListener('DOMContentLoaded', function(){
     <header class="top">
       <div>
         <h1>Giftback — Retenção, Frequência &amp; Faixas de Valor</h1>
-        <p class="subtitle">Marca MEGA LOTERIA (código 7008) · Lojas piloto MEGA LOTERIAS (57440) e SORTE SORTE (57448)</p>
-        <p class="stamp">Última atualização: 14 ago 2026 · Giftback ativo nestas 2 lojas desde 11/ago/2026 (4 dias de dados) · peça para eu atualizar quando quiser números mais recentes</p>
+        <p class="subtitle">Marca MEGA LOTERIA (código 7008) · 2 sites piloto, cada um independente e com 1 único site: MEGA LOTERIAS (código Giftback 57440) e SORTE SORTE (código Giftback 57448)</p>
+        <p class="stamp" id="lastUpdatedStamp"><strong>Última atualização: 14/ago/2026</strong> · Giftback ativo nesses 2 sites desde 11/ago/2026 (4 dias de dados) · peça para eu atualizar quando quiser números mais recentes</p>
       </div>
-      <button class="theme-toggle" id="themeToggle">Modo escuro</button>
+      <div class="header-actions">
+        <button class="refresh-btn" id="refreshBtn" type="button" title="Recarrega a página para buscar a versão mais recente já publicada deste painel"><span class="spin">&#8635;</span> <span id="refreshBtnLabel">Atualizar</span></button>
+        <button class="theme-toggle" id="themeToggle">Modo escuro</button>
+      </div>
     </header>
+
+    <!-- RESPOSTA DIRETA — meta norte -->
+    <div class="card" id="respostaDiretaCard" style="border:2px solid var(--series-1)">
+      <h2>Resposta direta: estamos aumentando o que a Mega Loteria pediu?</h2>
+      <p class="desc">Olhando os 2 sites juntos (Mega Loterias + Sorte Sorte, cada um um site independente) nos 4 dias de piloto — a meta do cliente é fazer apostadores de 1-2-3x/mês virarem recorrentes e, com o tempo, subirem de faixa de valor (Fx1→Fx8).</p>
+      <div class="insight good" style="margin-bottom:10px">
+        <div class="num" id="respFreqNum">—</div>
+        <p><strong style="color:var(--text-primary)">Frequência / recorrência: SIM — sinal forte, já visível no piloto.</strong> <span id="respFreqText"></span></p>
+      </div>
+      <div class="insight warn">
+        <div class="num" style="font-size:15px; min-width:92px">AINDA NÃO</div>
+        <p><strong style="color:var(--text-primary)">Subida de faixa (Fx1→Fx8): ainda não é possível provar.</strong> Temos só 4 dias de piloto (11-14/ago) e a base do Giftback não guarda o histórico de cada cliente antes de 11/ago — não dá para comparar a faixa do <em>mesmo</em> cliente antes e depois ainda, só perfis diferentes (marca toda vs. piloto). Para responder isso de verdade precisamos acompanhar os mesmos clientes por várias semanas (próximo passo, ver seção de recomendações no fim do painel).</p>
+      </div>
+    </div>
 
     <div class="segmented" id="scopeToggle">
       <button class="active" data-scope="mega">Mega Loterias</button>
@@ -254,14 +342,14 @@ document.addEventListener('DOMContentLoaded', function(){
     <!-- KPI CARDS -->
     <div class="card">
       <h2>KPIs de performance do bônus (piloto Giftback)</h2>
-      <p class="desc" id="kpiDesc">Loja MEGA LOTERIAS (57440) · 11-14/ago/2026</p>
+      <p class="desc" id="kpiDesc">Site MEGA LOTERIAS (57440) · 11-14/ago/2026</p>
       <div class="kpi-grid" id="kpiGrid"></div>
     </div>
 
     <!-- DAILY BONUS CHART -->
     <div class="card">
       <h2>Bônus gerado vs. usado por dia</h2>
-      <p class="desc" id="dailyDesc">Volume diário e taxa de uso (resgatado / gerado) desde o início do piloto — MEGA LOTERIAS</p>
+      <p class="desc" id="dailyDesc">Volume diário e taxa de uso (resgatado / gerado) desde o início do piloto — site MEGA LOTERIAS</p>
       <div class="legend">
         <span class="legend-item"><span class="swatch" style="background:var(--series-1)"></span>Bônus gerado</span>
         <span class="legend-item"><span class="swatch" style="background:var(--series-3)"></span>Bônus usado (resgatado)</span>
@@ -288,7 +376,7 @@ document.addEventListener('DOMContentLoaded', function(){
         <div class="num" id="freqInsightNum">73%</div>
         <p id="freqInsightText">dos clientes da Mega Loterias apostaram só 1x ou 2x no período — esse é o grupo-alvo para virar apostador recorrente (3x+).</p>
       </div>
-      <details class="tableview">
+      <details class="tableview" open>
         <summary>Ver como tabela</summary>
         <table class="datatbl" id="freqTable"></table>
       </details>
@@ -323,7 +411,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
     <div class="card">
       <h2>Tendência mensal 2026 (jan-jul)</h2>
-      <p class="desc">Últimos 7 meses fechados da marca — contexto antes do piloto Giftback nas duas lojas</p>
+      <p class="desc">Últimos 7 meses fechados da marca — contexto antes do piloto Giftback nesses 2 sites</p>
       <div class="mini-grid" id="trendGrid"></div>
     </div>
 
@@ -337,10 +425,11 @@ document.addEventListener('DOMContentLoaded', function(){
       <svg id="tierShareChart" width="100%" height="260" style="overflow:visible"></svg>
       <div class="insight warn">
         <div class="num" style="font-size:16px; min-width:70px">Ainda não</div>
-        <p>é possível provar migração de faixa (cliente subindo de Fx1 para Fx2, etc.) porque o piloto Giftback só tem 4 dias — a base "silver.giftback.bonus" não tem histórico de antes de 11/ago para comparar o mesmo cliente ao longo do tempo. O gráfico acima compara <strong style="color:var(--text-primary)">perfis diferentes</strong> (marca toda vs. só as 2 lojas piloto em 4 dias), não o mesmo cliente antes/depois — por isso a base piloto aparece concentrada na Fx1 (é o público que já transaciona nessas 2 lojas, ainda sem tempo de resposta do bônus).</p>
+        <p>é possível provar migração de faixa (cliente subindo de Fx1 para Fx2, etc.) porque o piloto Giftback só tem 4 dias — a base "silver.giftback.bonus" não tem histórico de antes de 11/ago para comparar o mesmo cliente ao longo do tempo. O gráfico acima compara <strong style="color:var(--text-primary)">perfis diferentes</strong> (marca toda vs. só os 2 sites piloto em 4 dias), não o mesmo cliente antes/depois — por isso a base piloto aparece concentrada na Fx1 (é o público que já transaciona nesses 2 sites, ainda sem tempo de resposta do bônus).</p>
       </div>
-      <details class="tableview">
+      <details class="tableview" open>
         <summary>Ver tabela completa por faixa (clientes, frequência, ticket médio)</summary>
+        <p class="desc" style="margin-top:8px;margin-bottom:2px"><strong style="color:var(--text-primary)">Como ler esta tabela:</strong> "marca" = base completa da Mega Loteria em jul/2026 (todas as lojas/canais da marca, mês de referência). "piloto" = só os 2 sites do piloto Giftback (Mega Loterias e Sorte Sorte, cada um um site independente), 11-14/ago/2026. "Clientes" = quantos clientes distintos caem naquela faixa de valor. "Frequência" = média de transações por cliente no período (mês para a marca, 4 dias para o piloto — não são diretamente comparáveis em volume, só em perfil). "TM" = ticket médio (R$ por transação). Passe o mouse sobre os títulos das colunas para ver a explicação também ali.</p>
         <table class="datatbl" id="tierTable"></table>
       </details>
     </div>
@@ -367,16 +456,17 @@ document.addEventListener('DOMContentLoaded', function(){
       <h2>O que isso significa para a meta de retenção e subida de faixa</h2>
       <p class="desc">Interpretação aplicada ao objetivo do cliente: converter apostadores de 1-3x em recorrentes e subir de faixa de valor</p>
       <ul class="reco-list">
-        <li><span class="n">1</span><span>O maior segmento em ambas as lojas é quem aposta <strong style="color:var(--text-primary)">apenas 1x</strong> no período (55% da base da Mega Loterias, 52% da Sorte Sorte) — é aqui que está o maior volume de clientes para trabalhar, não no topo da pirâmide.</span></li>
+        <li><span class="n">1</span><span>O maior segmento em ambos os sites é quem aposta <strong style="color:var(--text-primary)">apenas 1x</strong> no período (55% da base da Mega Loterias, 52% da Sorte Sorte) — é aqui que está o maior volume de clientes para trabalhar, não no topo da pirâmide.</span></li>
         <li><span class="n">2</span><span>Quem resgata bônus aposta em média <strong style="color:var(--text-primary)">2,5x mais</strong> no período do que quem não resgata — isso já bate 10x a meta de +15% de frequência que a própria marca definiu. Ainda é sinal contemporâneo (mesmo período), não prova de causalidade, mas é o indicador mais forte disponível hoje.</span></li>
         <li><span class="n">3</span><span>A taxa de uso do bônus está subindo todos os dias desde o lançamento (14% → 34% → 56% → 62%) — sinal de adoção crescente, o que tende a puxar frequência e, com o tempo, o ticket médio (Fx) junto.</span></li>
         <li><span class="n">4</span><span><strong style="color:var(--text-primary)">Para provar subida de faixa de verdade</strong>, precisamos acompanhar os mesmos clientes semana a semana (não só o agregado): pegar a faixa de cada cliente ativo no piloto hoje e comparar com a faixa dele daqui a 4-6 semanas. Isso vira possível assim que tivermos mais histórico do Giftback — é o próximo passo natural deste painel.</span></li>
-        <li><span class="n">5</span><span>Ação sugerida: criar campanhas de bônus segmentadas para clientes de 1x e 2x apostas que ainda não resgataram — esse grupo tem quase o dobro de clientes do grupo "resgatou" em ambas as lojas.</span></li>
+        <li><span class="n">5</span><span>Ação sugerida: criar campanhas de bônus segmentadas para clientes de 1x e 2x apostas que ainda não resgataram — esse grupo tem quase o dobro de clientes do grupo "resgatou" em ambos os sites.</span></li>
       </ul>
     </div>
 
     <footer class="notes">
-      <strong>Limitações dos dados nesta versão:</strong> o Giftback só está ativo nessas 2 lojas desde 11/ago/2026 — todas as métricas "piloto Giftback" cobrem apenas 4 dias corridos, não um mês fechado. Isso é normal em fase de lançamento, mas significa que os números ainda vão oscilar bastante. Os "dados gerais da marca" vêm da planilha interna da Mega Loteria (base completa da marca, todas as lojas/canais) e usam jul/2026 como mês de referência (mês cheio mais recente); essa base é maior e mais ampla que as 2 lojas do piloto, então as comparações de perfil por faixa são direcionais, não uma migração real do mesmo cliente. O indicador de "% de engajamento" (vendas com bônus vs. sem bônus) continua não preenchido na fonte do Giftback para essas duas lojas.<br>
+      <strong>Sobre Mega Loterias e Sorte Sorte:</strong> são 2 sites separados e independentes (cada um é 1 único site, não redes com múltiplas lojas físicas), ambos rodando o piloto Giftback sob a mesma marca MEGA LOTERIA (código 7008) — Mega Loterias com código Giftback 57440, Sorte Sorte com código 57448.<br>
+      <strong>Limitações dos dados nesta versão:</strong> o Giftback só está ativo nesses 2 sites desde 11/ago/2026 — todas as métricas "piloto Giftback" cobrem apenas 4 dias corridos, não um mês fechado. Isso é normal em fase de lançamento, mas significa que os números ainda vão oscilar bastante. Os "dados gerais da marca" vêm da planilha interna da Mega Loteria (base completa da marca, todas as lojas/canais da marca) e usam jul/2026 como mês de referência (mês cheio mais recente); essa base é maior e mais ampla que os 2 sites do piloto, então as comparações de perfil por faixa são direcionais, não uma migração real do mesmo cliente. O indicador de "% de engajamento" (vendas com bônus vs. sem bônus) continua não preenchido na fonte do Giftback para esses dois sites.<br>
       <strong>Como atualizar:</strong> este painel é uma foto de hoje. Não há conexão ao vivo com o banco de dados a partir do seu navegador — quando quiser números novos, me peça para "atualizar o dashboard" nesta conversa e eu busco os dados mais recentes (Giftback + planilha da marca, se houver uma nova versão) e atualizo este mesmo artefato.
     </footer>
 
@@ -522,7 +612,7 @@ const TREND_2026 = [
 ];
 
 const fmtBRL = n => "R$ " + n.toLocaleString('pt-BR', {minimumFractionDigits:2, maximumFractionDigits:2});
-const fmtBRLShort = n => "R$ " + n.toLocaleString('pt-BR', {maximumFractionDigits:0});
+const fmtBRLShort = n => "R$ " + n.toLocaleString('pt-BR', {minimumFractionDigits:2, maximumFractionDigits:2});
 const fmtInt = n => Math.round(n).toLocaleString('pt-BR');
 const fmtPct = n => (n*100).toLocaleString('pt-BR', {minimumFractionDigits:1, maximumFractionDigits:1}) + "%";
 const fmtDec = (n,d=2) => n.toLocaleString('pt-BR', {minimumFractionDigits:d, maximumFractionDigits:d});
@@ -760,13 +850,13 @@ function renderTierSection() {
   }).join('');
   document.getElementById('tierTable').innerHTML = `
     <thead><tr>
-      <th>Faixa</th>
-      <th style="text-align:right">Clientes (marca)</th>
-      <th style="text-align:right">Clientes (piloto)</th>
-      <th>Frequência (marca)</th>
-      <th>Frequência (piloto)</th>
-      <th>TM (marca)</th>
-      <th>TM (piloto)</th>
+      <th title="Faixa de valor (Fx1-Fx8), mesma régua que a Mega Loteria já usa internamente">Faixa</th>
+      <th style="text-align:right" title="Nº de clientes distintos nesta faixa, base completa da marca (todas as lojas/canais) em jul/2026">Clientes (marca)</th>
+      <th style="text-align:right" title="Nº de clientes distintos nesta faixa, só os 2 sites do piloto Giftback (11-14/ago/2026)">Clientes (piloto)</th>
+      <th title="Transações por cliente no mês (jul/2026), base completa da marca">Frequência (marca)</th>
+      <th title="Transações por cliente nos 4 dias de piloto Giftback (11-14/ago/2026)">Frequência (piloto)</th>
+      <th title="Ticket médio (R$ por transação), base completa da marca em jul/2026">TM (marca)</th>
+      <th title="Ticket médio (R$ por transação), só os 2 sites do piloto Giftback">TM (piloto)</th>
     </tr></thead>
     <tbody>${rows}</tbody>`;
 }
@@ -804,12 +894,23 @@ function renderTrendGrid() {
   document.getElementById('trendGrid').innerHTML = grid;
 }
 
+function renderRespostaDireta() {
+  const d = DATA.combo.impact;
+  const mult = d.resgatou.media / d.nao.media;
+  const liftPct = (mult - 1) * 100;
+  const metaMultiple = liftPct / 15;
+  document.getElementById('respFreqNum').textContent = fmtDec(mult,1) + "×";
+  document.getElementById('respFreqText').textContent =
+    `Juntando os 2 sites: quem resgatou bônus apostou em média ${fmtDec(d.resgatou.media)}× no período (${fmtInt(d.resgatou.clientes)} clientes) contra ${fmtDec(d.nao.media)}× de quem não resgatou (${fmtInt(d.nao.clientes)} clientes) — um salto de +${fmtDec(liftPct,0)}% na frequência, ${fmtDec(metaMultiple,1)}× acima da meta de +15% que a própria Mega Loteria já definiu internamente. Isso ainda é uma correlação observada no mesmo período (não é uma prova de causalidade nem um efeito medido ao longo do tempo), mas é o sinal mais forte disponível hoje de que o Giftback está puxando recorrência nos dois sites.`;
+}
+
 function renderAll() {
   renderKPIs();
   renderDailyCharts();
   renderFreqChart();
   renderImpactChart();
   renderTierSection();
+  renderRespostaDireta();
 }
 
 document.getElementById('scopeToggle').addEventListener('click', e => {
@@ -819,6 +920,18 @@ document.getElementById('scopeToggle').addEventListener('click', e => {
   btn.classList.add('active');
   scope = btn.getAttribute('data-scope');
   renderAll();
+});
+
+document.getElementById('refreshBtn').addEventListener('click', () => {
+  const btn = document.getElementById('refreshBtn');
+  btn.classList.add('spinning');
+  btn.disabled = true;
+  document.getElementById('refreshBtnLabel').textContent = 'Atualizando...';
+  setTimeout(() => {
+    const url = new URL(window.location.href);
+    url.searchParams.set('t', Date.now());
+    window.location.href = url.toString();
+  }, 250);
 });
 
 document.getElementById('themeToggle').addEventListener('click', () => {
