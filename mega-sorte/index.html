@@ -311,7 +311,7 @@ document.addEventListener('DOMContentLoaded', function(){
       <div>
         <h1>Giftback — Retenção, Frequência &amp; Faixas de Valor</h1>
         <p class="subtitle">Marca MEGA LOTERIA (código 7008) · 2 sites piloto, cada um independente e com 1 único site: MEGA LOTERIAS (código Giftback 57440) e SORTE SORTE (código Giftback 57448)</p>
-        <p class="stamp" id="lastUpdatedStamp"><strong>Dados do Giftback atualizados em: 14/ago/2026, 18:14 (horário de Brasília)</strong> · Giftback ativo nesses 2 sites desde 11/ago/2026 (4 dias de dados)</p>
+        <p class="stamp" id="lastUpdatedStamp"><strong>Dados do Giftback atualizados em: 14/ago/2026, 21:21 (horário de Brasília)</strong> · Giftback ativo nesses 2 sites desde 11/ago/2026 (4 dias de dados)</p>
         <p class="stamp" style="margin-top:2px">O botão "Recarregar" ao lado só busca a versão mais recente já publicada desta página — ele <strong>não</strong> consulta o Giftback ao vivo. Os dados em si são atualizados automaticamente 2x por dia (8h e 18h) por uma rotina, ou a qualquer momento que você peça "atualizar o dashboard" aqui no chat comigo.</p>
       </div>
       <div class="header-actions">
@@ -469,9 +469,9 @@ document.addEventListener('DOMContentLoaded', function(){
       <h2>O que isso significa para a meta de retenção e subida de faixa</h2>
       <p class="desc">Interpretação aplicada ao objetivo do cliente: converter apostadores de 1-3x em recorrentes e subir de faixa de valor</p>
       <ul class="reco-list">
-        <li><span class="n">1</span><span>O maior segmento em ambos os sites é quem aposta <strong style="color:var(--text-primary)">apenas 1x</strong> no período (52% da base de Mega Loterias, 49% da de Sorte Sorte) — é aqui que está o maior volume de clientes para trabalhar, não no topo da pirâmide.</span></li>
-        <li><span class="n">2</span><span>Em ambos os sites, quem resgata bônus faz em média <strong style="color:var(--text-primary)">~42% mais transações</strong> no período do que quem não resgata — em Mega Loterias isso já bate cerca de 2,8× a meta de +15% de frequência que a própria marca definiu para esse site (Sorte Sorte ainda não tem meta própria registrada, mas mostra o mesmo padrão, ~41%). Ainda é sinal contemporâneo (mesmo período), não prova de causalidade, mas é o indicador mais forte disponível hoje, em cada site.</span></li>
-        <li><span class="n">3</span><span>A taxa de uso do bônus está subindo todos os dias desde o lançamento (14% → 34% → 56% → 62%) — sinal de adoção crescente, o que tende a puxar frequência e, com o tempo, o ticket médio (Fx) junto.</span></li>
+        <li><span class="n">1</span><span>O maior segmento em ambos os sites é quem aposta <strong style="color:var(--text-primary)">apenas 1x</strong> no período (51% da base de Mega Loterias, 49% da de Sorte Sorte) — é aqui que está o maior volume de clientes para trabalhar, não no topo da pirâmide.</span></li>
+        <li><span class="n">2</span><span>Em Mega Loterias, quem resgata bônus faz em média <strong style="color:var(--text-primary)">~49% mais transações</strong> no período do que quem não resgata — isso já bate cerca de 3,3× a meta de +15% de frequência que a própria marca definiu para esse site. Em Sorte Sorte (ainda sem meta própria registrada) o padrão é ainda mais forte, <strong style="color:var(--text-primary)">~51% mais transações</strong>. Ainda é sinal contemporâneo (mesmo período), não prova de causalidade, mas é o indicador mais forte disponível hoje, em cada site.</span></li>
+        <li><span class="n">3</span><span>A taxa de uso do bônus está subindo todos os dias desde o lançamento em Mega Loterias (14% → 34% → 56% → 61%) — sinal de adoção crescente, o que tende a puxar frequência e, com o tempo, o ticket médio (Fx) junto.</span></li>
         <li><span class="n">4</span><span><strong style="color:var(--text-primary)">Para provar subida de faixa de verdade</strong>, precisamos acompanhar os mesmos clientes semana a semana (não só o agregado): pegar a faixa de cada cliente ativo no piloto hoje e comparar com a faixa dele daqui a 4-6 semanas. Isso vira possível assim que tivermos mais histórico do Giftback — é o próximo passo natural deste painel.</span></li>
         <li><span class="n">5</span><span>Ação sugerida: criar campanhas de bônus segmentadas para clientes de 1x e 2x apostas que ainda não resgataram — esse grupo tem quase o dobro de clientes do grupo "resgatou" em ambos os sites.</span></li>
       </ul>
@@ -493,61 +493,61 @@ const DATA = {
   mega: {
     label: "Mega Loterias (57440)",
     kpis: {
-      gerado_qtd: 13616, gerado_valor: 72074.63,
-      resgatado_qtd: 5440, resgatado_valor: 12125.30,
+      gerado_qtd: 14913, gerado_valor: 77153.32,
+      resgatado_qtd: 6256, resgatado_valor: 13912.36,
       perdido_qtd: 215, perdido_valor: 0,
-      ticket_medio: 8.50, receita_incremental: 100104.70,
-      tempo_medio_resgate: 0.914889705882353,
-      taxa_resgate: 5440/13616, taxa_perda: 215/13616,
-      clientes_ativos: 7656
+      ticket_medio: 8.50, receita_incremental: 113218.64,
+      tempo_medio_resgate: 0.9782608695652174,
+      taxa_resgate: 6256/14913, taxa_perda: 215/14913,
+      clientes_ativos: 8061
     },
-    freq: { "1x": 3996, "2x": 1830, "3x": 1557, "4+": 273 },
-    impact: { resgatou: {clientes: 3584, media: 1.5178571428571428}, nao: {clientes: 7656, media: 1.0679205851619644} },
+    freq: { "1x": 4077, "2x": 1918, "3x": 1556, "4+": 510 },
+    impact: { resgatou: {clientes: 3907, media: 1.6012285641156898}, nao: {clientes: 8061, media: 1.0739362361989828} },
     daily: [
       {d:"11/08", gerado:2851, usado:406},
       {d:"12/08", gerado:4895, usado:1644},
       {d:"13/08", gerado:3510, usado:1969},
-      {d:"14/08", gerado:2360, usado:1421}
+      {d:"14/08", gerado:3657, usado:2237}
     ],
     tier: {
-      "Fx1 Até R$20":        {qtd:4731, valor:51976.57, trans:6998, freq:1.4791798774043543, tm:7.42734638,  rmc:10.98638131},
-      "Fx2 R$21-R$50":       {qtd:1870, valor:60228.26, trans:4048, freq:2.1647058823529412, tm:14.87852273, rmc:32.20762567},
-      "Fx3 R$51-R$100":      {qtd:682,  valor:46984.06, trans:1629, freq:2.3885630498533724, tm:28.84227133, rmc:68.89158358},
-      "Fx4 R$101-R$300":     {qtd:324,  valor:51068.37, trans:813,  freq:2.5092592592592593, tm:62.81472325, rmc:157.61842593},
-      "Fx5 R$301-R$500":     {qtd:33,   valor:12217.28, trans:83,   freq:2.5151515151515152, tm:147.19614458,rmc:370.22060606},
-      "Fx6 R$501-R$1.000":   {qtd:13,   valor:9077.41,  trans:37,   freq:2.8461538461538462, tm:245.33540541,rmc:698.26230769},
-      "Fx7 R$1.001-R$5.000": {qtd:2,    valor:3477.00,  trans:5,    freq:2.5,                 tm:695.40000000,rmc:1738.50000000},
-      "Fx8 Acima R$5.000":   {qtd:1,    valor:21573.00, trans:3,    freq:3.0,                  tm:7191.00000000,rmc:21573.00000000}
+      "Fx1 Até R$20":        {qtd:4863, valor:53772.18, trans:7272, freq:1.50, tm:7.39,   rmc:11.06},
+      "Fx2 R$21-R$50":       {qtd:1990, valor:64509.39, trans:4491, freq:2.26, tm:14.36,  rmc:32.42},
+      "Fx3 R$51-R$100":      {qtd:736,  valor:51585.00, trans:1845, freq:2.51, tm:27.96,  rmc:70.09},
+      "Fx4 R$101-R$300":     {qtd:362,  valor:57899.72, trans:979,  freq:2.70, tm:59.14,  rmc:159.94},
+      "Fx5 R$301-R$500":     {qtd:39,   valor:14248.59, trans:113,  freq:2.90, tm:126.09, rmc:365.35},
+      "Fx6 R$501-R$1.000":   {qtd:14,   valor:9865.10,  trans:41,   freq:2.93, tm:240.61, rmc:704.65},
+      "Fx7 R$1.001-R$5.000": {qtd:2,    valor:3532.00,  trans:6,    freq:3.00, tm:588.67,  rmc:1766.00},
+      "Fx8 Acima R$5.000":   {qtd:1,    valor:21573.00, trans:3,    freq:3.00, tm:7191.00, rmc:21573.00}
     }
   },
   sorte: {
     label: "Sorte Sorte (57448)",
     kpis: {
-      gerado_qtd: 1708, gerado_valor: 8495.77,
-      resgatado_qtd: 706, resgatado_valor: 1285.76,
+      gerado_qtd: 1860, gerado_valor: 9035.08,
+      resgatado_qtd: 797, resgatado_valor: 1441.24,
       perdido_qtd: 27, perdido_valor: 0,
-      ticket_medio: 8.50, receita_incremental: 8463.99,
-      tempo_medio_resgate: 0.8597733711048159,
-      taxa_resgate: 706/1708, taxa_perda: 27/1708,
-      clientes_ativos: 928
+      ticket_medio: 8.50, receita_incremental: 9409.26,
+      tempo_medio_resgate: 0.9234629861982434,
+      taxa_resgate: 797/1860, taxa_perda: 27/1860,
+      clientes_ativos: 984
     },
-    freq: { "1x": 456, "2x": 219, "3x": 212, "4+": 41 },
-    impact: { resgatou: {clientes: 462, media: 1.5281385281385282}, nao: {clientes: 928, media: 1.0797413793103448} },
+    freq: { "1x": 486, "2x": 221, "3x": 200, "4+": 77 },
+    impact: { resgatou: {clientes: 489, media: 1.6298568507157465}, nao: {clientes: 984, media: 1.0802845528455285} },
     daily: [
       {d:"11/08", gerado:411, usado:63},
       {d:"12/08", gerado:586, usado:238},
       {d:"13/08", gerado:439, usado:254},
-      {d:"14/08", gerado:272, usado:151}
+      {d:"14/08", gerado:424, usado:242}
     ],
     tier: {
-      "Fx1 Até R$20":        {qtd:612, valor:6446.29, trans:923, freq:1.5081699346405229, tm:6.98406284,  rmc:10.53315359},
-      "Fx2 R$21-R$50":       {qtd:227, valor:7030.32, trans:550, freq:2.4229074889867841,  tm:12.78240000, rmc:30.97057269},
-      "Fx3 R$51-R$100":      {qtd:68,  valor:4728.66, trans:170, freq:2.5,                 tm:27.81564706, rmc:69.53911765},
-      "Fx4 R$101-R$300":     {qtd:17,  valor:2766.68, trans:51,  freq:3.0,                 tm:54.24862745, rmc:162.74588235},
-      "Fx5 R$301-R$500":     {qtd:2,   valor:856.79,  trans:7,   freq:3.5,                 tm:122.39857143,rmc:428.39500000},
-      "Fx6 R$501-R$1.000":   {qtd:2,   valor:1395.25, trans:7,   freq:3.5,                 tm:199.32142857,rmc:697.62500000},
-      "Fx7 R$1.001-R$5.000": {qtd:0,   valor:0,       trans:0,   freq:0,                   tm:0,           rmc:0},
-      "Fx8 Acima R$5.000":   {qtd:0,   valor:0,       trans:0,   freq:0,                   tm:0,           rmc:0}
+      "Fx1 Até R$20":        {qtd:645, valor:6877.87, trans:978, freq:1.52, tm:7.03,   rmc:10.66},
+      "Fx2 R$21-R$50":       {qtd:236, valor:7483.83, trans:596, freq:2.53, tm:12.56,  rmc:31.71},
+      "Fx3 R$51-R$100":      {qtd:72,  valor:5096.21, trans:191, freq:2.65, tm:26.68,  rmc:70.78},
+      "Fx4 R$101-R$300":     {qtd:20,  valor:3208.27, trans:62,  freq:3.10, tm:51.75,  rmc:160.41},
+      "Fx5 R$301-R$500":     {qtd:2,   valor:856.79,  trans:7,   freq:3.50, tm:122.40, rmc:428.40},
+      "Fx6 R$501-R$1.000":   {qtd:2,   valor:1395.25, trans:7,   freq:3.50, tm:199.32, rmc:697.63},
+      "Fx7 R$1.001-R$5.000": {qtd:0,   valor:0,       trans:0,   freq:0,    tm:0,      rmc:0},
+      "Fx8 Acima R$5.000":   {qtd:0,   valor:0,       trans:0,   freq:0,    tm:0,      rmc:0}
     }
   }
 };
