@@ -311,7 +311,7 @@ document.addEventListener('DOMContentLoaded', function(){
       <div>
         <h1>Giftback — Retenção, Frequência &amp; Faixas de Valor</h1>
         <p class="subtitle">Marca MEGA LOTERIA (código 7008) · 2 sites piloto, cada um independente e com 1 único site: MEGA LOTERIAS (código Giftback 57440) e SORTE SORTE (código Giftback 57448)</p>
-        <p class="stamp" id="lastUpdatedStamp"><strong>Dados do Giftback atualizados em: 16/ago/2026, 00:23 (horário de Brasília)</strong> · Giftback ativo nesses 2 sites desde 11/ago/2026 (6 dias de dados)</p>
+        <p class="stamp" id="lastUpdatedStamp"><strong>Dados do Giftback atualizados em: 16/ago/2026, 03:17 (horário de Brasília)</strong> · Giftback ativo nesses 2 sites desde 11/ago/2026 (6 dias de dados)</p>
         <p class="stamp" style="margin-top:2px">O botão "Recarregar" ao lado só busca a versão mais recente já publicada desta página — ele <strong>não</strong> consulta o Giftback ao vivo. Os dados em si são atualizados automaticamente 2x por dia (8h e 18h) por uma rotina, ou a qualquer momento que você peça "atualizar o dashboard" aqui no chat comigo.</p>
       </div>
       <div class="header-actions">
@@ -496,7 +496,7 @@ const DATA = {
       gerado_qtd: 19487, gerado_valor: 93976.26,
       resgatado_qtd: 8498, resgatado_valor: 20021.36,
       perdido_qtd: 1848, perdido_valor: 4771.35,
-      ticket_medio: 19.219881, receita_incremental: 164346.94,
+      ticket_medio: 9.25, receita_incremental: 155450.89,
       tempo_medio_resgate: 1.1134384561073194,
       taxa_resgate: 8498/19487, taxa_perda: 1848/19487,
       clientes_ativos: 9715
@@ -512,14 +512,14 @@ const DATA = {
       {d:"16/08", gerado:0, usado:0}
     ],
     tier: {
-      "Fx1 Até R$20":        {qtd:5408, valor:60854.84, trans:7988, freq:1.4770710059171598, tm:7.6182824236,  rmc:11.2527440828},
-      "Fx2 R$21-R$50":       {qtd:2638, valor:86135.73, trans:6500, freq:2.4639878695981804, tm:13.2516507692, rmc:32.6519067475},
-      "Fx3 R$51-R$100":      {qtd:1052, valor:72912.38, trans:2967, freq:2.8203422053231939, tm:24.5744455679, rmc:69.3083460076},
-      "Fx4 R$101-R$300":     {qtd:527,  valor:83575.30, trans:1689, freq:3.2049335863377609, tm:49.4821195974,  rmc:158.5869070209},
-      "Fx5 R$301-R$500":     {qtd:61,   valor:22933.88, trans:226,  freq:3.7049180327868852, tm:101.4773451327, rmc:375.9652459016},
-      "Fx6 R$501-R$1.000":   {qtd:25,   valor:17457.26, trans:106,  freq:4.24,                tm:164.6911320755, rmc:698.29},
-      "Fx7 R$1.001-R$5.000": {qtd:2,    valor:3532.00,  trans:6,    freq:3.00,                tm:588.6666666667, rmc:1766.00},
-      "Fx8 Acima R$5.000":   {qtd:2,    valor:27098.00, trans:5,    freq:2.50,                tm:5419.60,        rmc:13549.00}
+      "Fx1 Até R$20":        {qtd:5409, valor:60854.84, trans:7989, freq:1.4769828064337216, tm:7.617329,  rmc:11.250664},
+      "Fx2 R$21-R$50":       {qtd:2599, valor:85333.99, trans:6390, freq:2.4586379376683340, tm:13.354302, rmc:32.833394},
+      "Fx3 R$51-R$100":      {qtd:1023, valor:71446.97, trans:2861, freq:2.7966764418377322, tm:24.972726, rmc:69.840635},
+      "Fx4 R$101-R$300":     {qtd:520,  valor:82872.28, trans:1661, freq:3.1942307692307692, tm:49.893004,  rmc:159.369769},
+      "Fx5 R$301-R$500":     {qtd:61,   valor:22933.88, trans:226,  freq:3.7049180327868852, tm:101.477345, rmc:375.965246},
+      "Fx6 R$501-R$1.000":   {qtd:25,   valor:17457.26, trans:106,  freq:4.24,                tm:164.691132, rmc:698.2904},
+      "Fx7 R$1.001-R$5.000": {qtd:2,    valor:3532.00,  trans:6,    freq:3.00,                tm:588.666667, rmc:1766.00},
+      "Fx8 Acima R$5.000":   {qtd:1,    valor:27098.00, trans:4,    freq:4.00,                tm:6774.5,     rmc:27098.00}
     }
   },
   sorte: {
@@ -528,7 +528,7 @@ const DATA = {
       gerado_qtd: 2357, gerado_valor: 10712.61,
       resgatado_qtd: 1054, resgatado_valor: 1969.47,
       perdido_qtd: 256, perdido_valor: 658.75,
-      ticket_medio: 14.360641, receita_incremental: 14894.66,
+      ticket_medio: 8.5, receita_incremental: 13570.28,
       tempo_medio_resgate: 1.0711574952561669,
       taxa_resgate: 1054/2357, taxa_perda: 256/2357,
       clientes_ativos: 1144
@@ -544,14 +544,14 @@ const DATA = {
       {d:"16/08", gerado:0, usado:0}
     ],
     tier: {
-      "Fx1 Até R$20":        {qtd:703, valor:7605.25, trans:1056, freq:1.5021337126600284, tm:7.2019412879,  rmc:10.8182788051},
-      "Fx2 R$21-R$50":       {qtd:295, valor:9417.15, trans:823,  freq:2.7898305084745763, tm:11.4424665857, rmc:31.9225423729},
-      "Fx3 R$51-R$100":      {qtd:109, valor:7603.57, trans:327,  freq:3.00,                tm:23.2525076453, rmc:69.7575229358},
-      "Fx4 R$101-R$300":     {qtd:28,  valor:4556.48, trans:117,  freq:4.1785714285714286, tm:38.9442735043, rmc:162.7314285714},
-      "Fx5 R$301-R$500":     {qtd:5,   valor:2052.01, trans:18,   freq:3.60,                tm:114.0005555556, rmc:410.402},
-      "Fx6 R$501-R$1.000":   {qtd:4,   valor:2613.57, trans:16,   freq:4.00,                tm:163.348125,     rmc:653.3925},
-      "Fx7 R$1.001-R$5.000": {qtd:0,   valor:0,       trans:0,    freq:0,                   tm:0,                   rmc:0},
-      "Fx8 Acima R$5.000":   {qtd:0,   valor:0,       trans:0,    freq:0,                   tm:0,                   rmc:0}
+      "Fx1 Até R$20":        {qtd:703, valor:7605.25, trans:1056, freq:1.5021337126600284, tm:7.201941,  rmc:10.818279},
+      "Fx2 R$21-R$50":       {qtd:290, valor:9312.99, trans:809,  freq:2.7896551724137931, tm:11.511731, rmc:32.113759},
+      "Fx3 R$51-R$100":      {qtd:105, valor:7401.12, trans:311,  freq:2.9619047619047619, tm:23.797814, rmc:70.486857},
+      "Fx4 R$101-R$300":     {qtd:28,  valor:4556.48, trans:117,  freq:4.1785714285714286, tm:38.944274, rmc:162.731429},
+      "Fx5 R$301-R$500":     {qtd:5,   valor:2052.01, trans:18,   freq:3.60,                tm:114.000556, rmc:410.402},
+      "Fx6 R$501-R$1.000":   {qtd:4,   valor:2613.57, trans:16,   freq:4.00,                tm:163.348125, rmc:653.3925},
+      "Fx7 R$1.001-R$5.000": {qtd:0,   valor:0,       trans:0,    freq:0,                   tm:0,          rmc:0},
+      "Fx8 Acima R$5.000":   {qtd:0,   valor:0,       trans:0,    freq:0,                   tm:0,          rmc:0}
     }
   }
 };
