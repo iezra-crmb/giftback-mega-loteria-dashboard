@@ -139,6 +139,29 @@
   .insight.good .num { color: var(--good-text); }
   .insight.good { border-left: 3px solid var(--good); }
 
+  .confidence-chip {
+    display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 650;
+    padding: 2px 10px; border-radius: 999px; border: 1px solid currentColor; white-space: nowrap;
+    margin: 0 2px;
+  }
+  .confidence-chip::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: currentColor; flex: 0 0 auto; }
+  .confidence-chip.conf-high { color: var(--good-text); }
+  .confidence-chip.conf-med  { color: var(--warn); }
+  .confidence-chip.conf-low  { color: var(--serious); }
+
+  .confidence-timeline { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border); }
+  .confidence-timeline .timeline-h { font-size: 14px; font-weight: 650; margin: 0 0 4px; }
+  .tl-step { display: flex; gap: 12px; padding: 9px 0; position: relative; }
+  .tl-step + .tl-step { border-top: 1px dashed var(--border); }
+  .tl-dot { width: 12px; height: 12px; border-radius: 50%; margin-top: 4px; flex: 0 0 auto; background: currentColor; }
+  .tl-dot.conf-low  { color: var(--serious); }
+  .tl-dot.conf-med  { color: var(--warn); }
+  .tl-dot.conf-high { color: var(--good); }
+  .tl-body { flex: 1; min-width: 0; }
+  .tl-date { font-size: 12.5px; font-weight: 650; color: var(--text-primary); }
+  .tl-date .sub { font-weight: 500; color: var(--text-muted); font-size: 11.5px; }
+  .tl-text { font-size: 13px; color: var(--text-secondary); line-height: 1.5; margin-top: 3px; }
+
   .reco-list { margin: 0; padding: 0; list-style: none; }
   .reco-list li { display: flex; gap: 10px; padding: 10px 0; border-top: 1px solid var(--border); font-size: 13px; color: var(--text-secondary); line-height: 1.5; }
   .reco-list li:first-child { border-top: none; }
@@ -312,7 +335,7 @@ document.addEventListener('DOMContentLoaded', function(){
         <h1>Giftback — Retenção, Frequência &amp; Faixas de Valor</h1>
         <p class="subtitle">Marca MEGA LOTERIA (código 7008) · 2 sites piloto, cada um independente e com 1 único site: MEGA LOTERIAS (código Giftback 57440) e SORTE SORTE (código Giftback 57448)</p>
         <p class="stamp" id="lastUpdatedStamp"><strong>Dados do Giftback atualizados em: 17/ago/2026, 12:22 (horário de Brasília)</strong> · Giftback ativo nesses 2 sites desde 11/ago/2026 (7 dias de dados)</p>
-        <p class="stamp" style="margin-top:2px">O botão "Recarregar" ao lado só busca a versão mais recente já publicada desta página — ele <strong>não</strong> consulta o Giftback ao vivo. Os dados em si são atualizados automaticamente 2x por dia (8h e 18h) por uma rotina, ou a qualquer momento que você peça "atualizar o dashboard" aqui no chat comigo.</p>
+        <p class="stamp" style="margin-top:2px">O botão "Recarregar" ao lado só busca a versão mais recente já publicada desta página — ele <strong>não</strong> consulta o Giftback ao vivo. Os dados em si são atualizados automaticamente 8x por dia (a cada 3 horas) por uma rotina, ou a qualquer momento que você peça "atualizar o dashboard" aqui no chat comigo.</p>
       </div>
       <div class="header-actions">
         <button class="refresh-btn" id="refreshBtn" type="button" title="Recarrega a página para buscar a versão mais recente já publicada deste painel — não consulta o Giftback ao vivo"><span class="spin">&#8635;</span> <span id="refreshBtnLabel">Recarregar</span></button>
@@ -326,15 +349,41 @@ document.addEventListener('DOMContentLoaded', function(){
       <p class="desc">Mega Loterias e Sorte Sorte são 2 sites independentes — os números abaixo são <strong style="color:var(--text-primary)">sempre mostrados separados por site, nunca somados</strong>. A meta do cliente é fazer apostadores de 1-2-3x/mês virarem recorrentes e, com o tempo, subirem de faixa de valor (Fx1→Fx8).</p>
       <div class="insight good" style="margin-bottom:10px">
         <div class="num" id="respFreqNumMega">—</div>
-        <p><strong style="color:var(--text-primary)">Mega Loterias — Frequência / recorrência: SIM, sinal forte.</strong> <span id="respFreqTextMega"></span></p>
+        <p><strong style="color:var(--text-primary)">Mega Loterias — Frequência / recorrência: SIM, sinal forte.</strong> <span class="confidence-chip conf-high">Confiança: Alta</span> <span id="respFreqTextMega"></span></p>
       </div>
       <div class="insight good" style="margin-bottom:10px">
         <div class="num" id="respFreqNumSorte">—</div>
-        <p><strong style="color:var(--text-primary)">Sorte Sorte — Frequência / recorrência: SIM, sinal forte.</strong> <span id="respFreqTextSorte"></span></p>
+        <p><strong style="color:var(--text-primary)">Sorte Sorte — Frequência / recorrência: SIM, sinal forte.</strong> <span class="confidence-chip conf-high">Confiança: Alta</span> <span id="respFreqTextSorte"></span></p>
       </div>
       <div class="insight warn">
         <div class="num" style="font-size:15px; min-width:92px">AINDA NÃO</div>
-        <p><strong style="color:var(--text-primary)">Subida de faixa (Fx1→Fx8), nos dois sites: ainda não é possível provar.</strong> Temos só 7 dias de piloto (11-17/ago) e a base do Giftback não guarda o histórico de cada cliente antes de 11/ago — não dá para comparar a faixa do <em>mesmo</em> cliente antes e depois ainda, só perfis diferentes (benchmark vs. piloto). Para responder isso de verdade precisamos acompanhar os mesmos clientes por várias semanas, site por site (próximo passo, ver seção de recomendações no fim do painel).</p>
+        <p><strong style="color:var(--text-primary)">Subida de faixa (Fx1→Fx8), nos dois sites: ainda não é possível provar.</strong> <span class="confidence-chip conf-low">Confiança: Baixa</span> Temos só 7 dias de piloto (11-17/ago) e a base do Giftback não guarda o histórico de cada cliente antes de 11/ago — não dá para comparar a faixa do <em>mesmo</em> cliente antes e depois ainda, só perfis diferentes (benchmark vs. piloto). Para responder isso de verdade precisamos acompanhar os mesmos clientes por várias semanas, site por site (próximo passo, ver seção de recomendações no fim do painel).</p>
+      </div>
+
+      <div class="confidence-timeline">
+        <h3 class="timeline-h">Grau de confiança hoje &amp; quando teremos uma confirmação mais robusta</h3>
+        <p class="desc" style="margin-top:-2px">A frequência já tem um sinal forte e consistente nos dois sites (amostra grande, direção estável dia a dia) — mas ainda é <strong style="color:var(--text-primary)">correlação no mesmo período</strong>, não causalidade isolada por um teste controlado, e a faixa de valor não dá pra medir de verdade com só 7 dias corridos. A régua de faixa é medida por ciclo mensal, então migração real de faixa (e a versão "causal" da frequência) só aparece comparando o <strong style="color:var(--text-primary)">mesmo cliente</strong> entre ciclos fechados. Prazo estimado a partir do início do piloto (11/ago/2026), em ambos os sites:</p>
+        <div class="tl-step">
+          <div class="tl-dot conf-low"></div>
+          <div class="tl-body">
+            <div class="tl-date">~11/set/2026 <span class="sub">(1 mês / 30 dias de piloto)</span></div>
+            <div class="tl-text">Primeira leitura preliminar comparando o mesmo cliente dentro do próprio piloto (semana 1 vs. semana 4) — primeiro indício de causalidade na frequência, ainda amostra piloto pequena para faixa. <span class="confidence-chip conf-low">Confiança: Baixa</span></div>
+          </div>
+        </div>
+        <div class="tl-step">
+          <div class="tl-dot conf-med"></div>
+          <div class="tl-body">
+            <div class="tl-date">~11/out/2026 <span class="sub">(2 ciclos mensais fechados)</span></div>
+            <div class="tl-text">Primeira comparação real de ciclo fechado a fechado por cliente (ago vs. set) — o teste mais direto da pergunta norte, em frequência e em faixa. <span class="confidence-chip conf-med">Confiança: Média</span></div>
+          </div>
+        </div>
+        <div class="tl-step">
+          <div class="tl-dot conf-high"></div>
+          <div class="tl-body">
+            <div class="tl-date">~dez/2026 – jan/2027 <span class="sub">(4+ ciclos mensais)</span></div>
+            <div class="tl-text">Vários ciclos consecutivos, tendência menos sensível ao ruído de um mês isolado — nível para afirmar com segurança se o Giftback está de fato causando o aumento de frequência e a subida de faixa, e não só coincidindo com ele. <span class="confidence-chip conf-high">Confiança: Alta</span></div>
+          </div>
+        </div>
       </div>
     </div>
 
