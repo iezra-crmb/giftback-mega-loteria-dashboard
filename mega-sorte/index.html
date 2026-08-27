@@ -421,6 +421,49 @@ document.addEventListener('DOMContentLoaded', function(){
       </div>
     </div>
 
+    <!-- SAÍDA DA FAIXA 1: TESTE PREDITIVO -->
+    <div class="card" id="fx1ExitCard" style="border:2px solid var(--good)">
+      <h2>Sair da Fx1 cedo prevê retorno futuro — e resgatar bônus prevê sair da Fx1</h2>
+      <p class="desc">Hipótese do cliente: historicamente, quem sai da faixa 1 tende a voltar mais vezes depois. Testamos isso com um desenho <strong style="color:var(--text-primary)">sem sobreposição de datas</strong> — classificamos o cliente pelo que ele já gastou nos 3 primeiros dias do piloto (11-13/ago, "janela preditora") e só então medimos o que aconteceu nos 13 dias seguintes (14-26/ago, "janela de resultado"). Como a classificação usa dados de ANTES do resultado ser medido, o resultado não pode "vazar" para dentro da classificação. Clientes da campanha de ATIVAÇÃO excluídos dos dois testes.</p>
+
+      <div class="section-h" style="font-size:14px;margin-top:4px">A. Quem já sai da Fx1 nos 3 primeiros dias volta mais depois?</div>
+      <details class="tableview" open>
+        <summary>Ver tabela — Mega Loterias (57440) e Sorte Sorte (57448)</summary>
+        <table class="datatbl">
+          <thead><tr><th>Site</th><th>Grupo (classificado em 11-13/ago)</th><th style="text-align:right">Clientes</th><th style="text-align:right">Taxa de retorno (14-26/ago)</th><th style="text-align:right">Transações médias (quem voltou)</th><th style="text-align:right">Dias ativos médios (quem voltou)</th></tr></thead>
+          <tbody>
+            <tr><td>Mega Loterias</td><td>Ficou na Fx1</td><td class="num">4.496</td><td class="num">77,3%</td><td class="num">4,54</td><td class="num">3,89</td></tr>
+            <tr><td>Mega Loterias</td><td><strong style="color:var(--text-primary)">Já saiu da Fx1</strong></td><td class="num">2.397</td><td class="num" style="color:var(--good-text)">83,8%</td><td class="num" style="color:var(--good-text)">6,13 (+35%)</td><td class="num" style="color:var(--good-text)">4,89 (+26%)</td></tr>
+            <tr><td>Sorte Sorte</td><td>Ficou na Fx1</td><td class="num">568</td><td class="num">73,1%</td><td class="num">4,48</td><td class="num">3,79</td></tr>
+            <tr><td>Sorte Sorte</td><td><strong style="color:var(--text-primary)">Já saiu da Fx1</strong></td><td class="num">264</td><td class="num" style="color:var(--good-text)">82,6%</td><td class="num" style="color:var(--good-text)">6,29 (+40%)</td><td class="num" style="color:var(--good-text)">5,17 (+36%)</td></tr>
+          </tbody>
+        </table>
+      </details>
+      <div class="insight good" style="margin-top:12px">
+        <div class="num">+30%</div>
+        <p>a hipótese se confirma nos dois sites, com magnitude parecida: quem já sai da Fx1 nos 3 primeiros dias tem taxa de retorno de 6 a 10 pontos percentuais maior, e entre quem volta, aposta cerca de 30-40% mais vezes no período seguinte do que quem fica preso na Fx1. <span class="confidence-chip conf-low">Confiança: Baixa</span> É correlação bem desenhada (sem sobreposição de datas) e consistente nos dois sites — mas ainda não prova que "empurrar" alguém pra fora da Fx1 causa esse retorno; pode ser que o tipo de cliente que já gasta mais de cara seja, por natureza, mais engajado.</p>
+      </div>
+
+      <div class="section-h" style="font-size:14px;margin-top:22px">B. Resgatar bônus prevê sair da Fx1?</div>
+      <p class="desc">Dentro do grupo que começou na Fx1 e voltou (14-26/ago), comparamos quem resgatou pelo menos 1 bônus nesse período com quem não resgatou nenhum — e olhamos se saíram da Fx1 somando o piloto inteiro (11-26/ago).</p>
+      <details class="tableview" open>
+        <summary>Ver tabela — Mega Loterias (57440) e Sorte Sorte (57448)</summary>
+        <table class="datatbl">
+          <thead><tr><th>Site</th><th>Resgatou bônus em 14-26/ago?</th><th style="text-align:right">Clientes</th><th style="text-align:right">Saíram da Fx1 (piloto todo)</th><th style="text-align:right">Transações médias</th><th style="text-align:right">Dias ativos médios</th></tr></thead>
+          <tbody>
+            <tr><td>Mega Loterias</td><td>Não resgatou</td><td class="num">1.502</td><td class="num">66,8%</td><td class="num">3,53</td><td class="num">2,90</td></tr>
+            <tr><td>Mega Loterias</td><td><strong style="color:var(--text-primary)">Resgatou</strong></td><td class="num">1.973</td><td class="num" style="color:var(--good-text)">92,9%</td><td class="num" style="color:var(--good-text)">5,30</td><td class="num" style="color:var(--good-text)">4,64</td></tr>
+            <tr><td>Sorte Sorte</td><td>Não resgatou</td><td class="num">184</td><td class="num">64,7%</td><td class="num">3,63</td><td class="num">2,93</td></tr>
+            <tr><td>Sorte Sorte</td><td><strong style="color:var(--text-primary)">Resgatou</strong></td><td class="num">231</td><td class="num" style="color:var(--good-text)">93,1%</td><td class="num" style="color:var(--good-text)">5,16</td><td class="num" style="color:var(--good-text)">4,47</td></tr>
+          </tbody>
+        </table>
+      </details>
+      <div class="insight warn" style="margin-top:12px">
+        <div class="num" style="font-size:16px; min-width:100px">+26 p.p.</div>
+        <p>quem resgatou pelo menos 1 bônus tem uma taxa de saída da Fx1 muito maior — 92,9% em Mega Loterias e 93,1% em Sorte Sorte, contra 66,8% e 64,7% entre quem não resgatou. <span class="confidence-chip conf-low">Confiança: Baixa</span> <strong style="color:var(--text-primary)">Ressalva importante:</strong> essa comparação é mais "contaminada" que a do item A — resgatar um bônus normalmente exige uma compra associada, então parte da diferença já era esperada por construção (quem resgata, quase sempre gasta mais naquele momento). Ainda assim, o número é útil: mesmo sem resgatar nada, 2 em cada 3 clientes que começaram na Fx1 saem dela sozinhos — mas resgatar bônus está associado a sair da Fx1 em praticamente 9 de cada 10 casos. É o argumento mais direto que temos hoje para o cliente investir em incentivar o primeiro resgate desse grupo.</p>
+      </div>
+    </div>
+
     <div class="segmented" id="scopeToggle">
       <button class="active" data-scope="mega">Mega Loterias</button>
       <button data-scope="sorte">Sorte Sorte</button>
