@@ -360,7 +360,7 @@ document.addEventListener('DOMContentLoaded', function(){
       </div>
       <div class="insight warn">
         <div class="num" style="font-size:15px; min-width:92px">AINDA NÃO</div>
-        <p><strong style="color:var(--text-primary)">Subida de faixa (Fx1→Fx8), nos dois sites: ainda não é possível provar.</strong> <span class="confidence-chip conf-low">Confiança: Baixa</span> Temos só 17 dias de piloto (11-27/ago) e a base do Giftback não guarda o histórico de cada cliente antes de 11/ago — não dá para comparar a faixa do <em>mesmo</em> cliente antes e depois ainda, só perfis diferentes (benchmark vs. piloto). Para responder isso de verdade precisamos acompanhar os mesmos clientes por várias semanas, site por site (próximo passo, ver seção de recomendações no fim do painel).</p>
+        <p><strong style="color:var(--text-primary)">Subida de faixa (Fx1→Fx8), nos dois sites: ainda não é prova estatística.</strong> <span class="confidence-chip conf-low">Confiança: Baixa</span> A base do Giftback não guarda o histórico de cada cliente antes de 11/ago — não dá para comparar a faixa do <em>mesmo</em> cliente antes do piloto vs. depois. Mas já temos uma primeira leitura real, mesmo cliente, comparando a 1ª semana do piloto com a semana mais recente fechada (3 semanas de intervalo) — ver o card "Mesmo cliente, 3 semanas depois" logo abaixo. É direcional, ainda não é a régua definitiva (essa vem com o fechamento do ciclo mensal, ~11/set).</p>
       </div>
 
       <div class="confidence-timeline">
@@ -387,6 +387,37 @@ document.addEventListener('DOMContentLoaded', function(){
             <div class="tl-text">Vários ciclos consecutivos, tendência menos sensível ao ruído de um mês isolado — nível para afirmar com segurança se o Giftback está de fato causando o aumento de frequência e a subida de faixa, e não só coincidindo com ele. <span class="confidence-chip conf-high">Confiança: Alta</span></div>
           </div>
         </div>
+      </div>
+    </div>
+
+    <!-- MESMO CLIENTE: COMPARAÇÃO DE PERÍODO -->
+    <div class="card" id="cohortCard" style="border:2px solid var(--series-2)">
+      <h2>Mesmo cliente, 3 semanas depois: primeira leitura real de coorte</h2>
+      <p class="desc">A tabela de faixas acima compara <strong style="color:var(--text-primary)">perfis diferentes</strong> (benchmark vs. piloto). Aqui é diferente: pegamos <strong style="color:var(--text-primary)">o mesmo cliente</strong>, identificado pelo código de usuário, e comparamos a semana 1 do piloto (11-17/ago) com a semana mais recente já 100% fechada (20-26/ago) — 3 semanas de intervalo. Clientes que vieram pela campanha de ATIVAÇÃO foram excluídos, para medir só o comportamento orgânico de quem já era cliente FIDELIDADE. Isso é uma versão antecipada do primeiro marco da linha do tempo acima (~11/set) — mesma pergunta, com menos dias de dado ainda.</p>
+
+      <div class="section-h" style="font-size:14px;margin-top:4px">Mega Loterias (57440)</div>
+      <div class="kpi-grid" style="margin-top:8px">
+        <div class="tile"><div class="label">Clientes ativos — sem. 11-17/ago</div><div class="value">10.882</div></div>
+        <div class="tile"><div class="label">Clientes ativos — sem. 20-26/ago</div><div class="value">11.426</div><div class="sub" style="color:var(--good-text)">+5,0% (base orgânica, sem ativação)</div></div>
+        <div class="tile"><div class="label">Voltaram nas duas semanas</div><div class="value">6.496</div><div class="sub">59,7% de retenção em 3 semanas</div></div>
+        <div class="tile"><div class="label">Frequência do mesmo cliente</div><div class="value">2,78 &rarr; 2,77</div><div class="sub">praticamente estável (-0,4%)</div></div>
+        <div class="tile"><div class="label">Valor médio do mesmo cliente</div><div class="value">R$ 52,60 &rarr; R$ 52,97</div><div class="sub">praticamente estável (+0,7%)</div></div>
+        <div class="tile"><div class="label">Migração de faixa (6.496 clientes)</div><div class="value" style="font-size:15px">1.478 subiram · 3.551 mantiveram · 1.467 desceram</div><div class="sub" style="color:var(--good-text)">saldo líquido +11 clientes</div></div>
+      </div>
+
+      <div class="section-h" style="font-size:14px;margin-top:20px">Sorte Sorte (57448)</div>
+      <div class="kpi-grid" style="margin-top:8px">
+        <div class="tile"><div class="label">Clientes ativos — sem. 11-17/ago</div><div class="value">1.322</div></div>
+        <div class="tile"><div class="label">Clientes ativos — sem. 20-26/ago</div><div class="value">1.372</div><div class="sub" style="color:var(--good-text)">+3,8% (base orgânica, sem ativação)</div></div>
+        <div class="tile"><div class="label">Voltaram nas duas semanas</div><div class="value">744</div><div class="sub">56,3% de retenção em 3 semanas</div></div>
+        <div class="tile"><div class="label">Frequência do mesmo cliente</div><div class="value">2,89 &rarr; 2,81</div><div class="sub">praticamente estável (-2,8%)</div></div>
+        <div class="tile"><div class="label">Valor médio do mesmo cliente</div><div class="value">R$ 40,95 &rarr; R$ 46,26</div><div class="sub" style="color:var(--good-text)">+13,0%</div></div>
+        <div class="tile"><div class="label">Migração de faixa (744 clientes)</div><div class="value" style="font-size:15px">147 subiram · 439 mantiveram · 158 desceram</div><div class="sub">saldo líquido -11 clientes</div></div>
+      </div>
+
+      <div class="insight warn" style="margin-top:16px">
+        <div class="num" style="font-size:16px; min-width:100px">Estável, sem prova ainda</div>
+        <p><strong style="color:var(--text-primary)">Leitura de hoje:</strong> nos dois sites, quase 6 em cada 10 clientes da primeira semana do piloto continuam apostando 3 semanas depois, a base ativa orgânica está crescendo (+5,0% Mega Loterias, +3,8% Sorte Sorte) e, entre quem voltou, a frequência e o valor <strong style="color:var(--text-primary)">não caíram</strong> — ficaram estáveis. A migração de faixa está essencialmente empatada (saldo de +11 em Mega Loterias, -11 em Sorte Sorte) — dentro da margem de ruído de amostra pequena. <span class="confidence-chip conf-low">Confiança: Baixa</span> São só 3 semanas dentro do mesmo mês de lançamento (ainda sob efeito novidade, ver item 3 das recomendações) — a leitura estatisticamente robusta é a comparação de ciclo mensal fechado (ago vs. set), prevista para ~11/set na linha do tempo acima.</p>
       </div>
     </div>
 
@@ -524,7 +555,7 @@ document.addEventListener('DOMContentLoaded', function(){
         <li><span class="n">1</span><span>O maior segmento em ambos os sites é quem aposta <strong style="color:var(--text-primary)">apenas 1x</strong> no período (43% da base de Mega Loterias, 41% da de Sorte Sorte) — é aqui que está o maior volume de clientes para trabalhar, não no topo da pirâmide.</span></li>
         <li><span class="n">2</span><span><strong style="color:var(--text-primary)">Correção de metodologia (mantida desde a atualização anterior):</strong> cada cliente é contado em um único grupo (resgatou ou não), evitando o mesmo cliente entrar nos dois grupos quando tinha bônus resgatados e não resgatados no mesmo período. O sinal segue <strong style="color:var(--text-primary)">fortemente positivo</strong> nos dois sites: em Mega Loterias, quem resgata bônus fez em média <strong style="color:var(--text-primary)">~366% mais transações</strong> no período do que quem não resgata (5,72 vs. 1,23 apostas, 8.681 vs. 9.695 clientes) — bem acima da meta de +15% de frequência que a própria marca definiu para esse site. Em Sorte Sorte (ainda sem meta própria registrada) o padrão é ainda mais forte, <strong style="color:var(--text-primary)">~377% mais transações</strong> (5,76 vs. 1,21 apostas, 1.065 vs. 1.057 clientes). É uma correlação no mesmo período, não prova de causalidade, e vale acompanhar as próximas atualizações para confirmar que o sinal se mantém estável antes de reportar como resultado definitivo.</span></li>
         <li><span class="n">3</span><span>A taxa de uso do bônus subiu forte nos primeiros dias após o lançamento em Mega Loterias, atingiu o pico em 14/ago (62,0%) e vem recuando desde então, estabilizando entre 12% e 17% nos dias mais recentes já fechados (14,2% → 33,6% → 56,1% → 62,0% → 47,4% → 39,5% → 32,0% → 25,5% → 22,3% → 22,6% → 17,5% → 13,9% → 16,8% → 14,9% → 15,6% → 12,0%, de 11 a 26/ago) — um padrão comum de "efeito novidade" no lançamento. O dia 27/ago (hoje) já tem bônus parciais registrados nos dois sites até o momento desta atualização (09:26, horário de Brasília) — 12,6% de taxa de uso até agora — mas o dia ainda está em andamento, então esse número deve mudar nas próximas atualizações. Em 22/ago também houve uma leva pontual de ~610 mil bônus tipo ATIVAÇÃO (reengajamento de base inativa) em Mega Loterias, tratada à parte deste relatório de FIDELIDADE — ver relatório específico de ativação.</span></li>
-        <li><span class="n">4</span><span><strong style="color:var(--text-primary)">Para provar subida de faixa de verdade</strong>, precisamos acompanhar os mesmos clientes semana a semana (não só o agregado): pegar a faixa de cada cliente ativo no piloto hoje e comparar com a faixa dele daqui a 4-6 semanas. Isso vira possível assim que tivermos mais histórico do Giftback — é o próximo passo natural deste painel.</span></li>
+        <li><span class="n">4</span><span><strong style="color:var(--text-primary)">Primeira leitura de "mesmo cliente" já está no ar</strong> (card "Mesmo cliente, 3 semanas depois", logo após a "Resposta direta" no topo): comparando a 1ª semana do piloto com a semana mais recente fechada, ~59% dos clientes de Mega Loterias e ~56% de Sorte Sorte voltaram, e frequência/valor por cliente ficaram estáveis — sem sinal de queda. Ainda é cedo (3 semanas, mesmo mês de lançamento) para tratar como prova, mas é a base do teste que vai virar definitivo no fechamento do ciclo mensal (~11/set).</span></li>
         <li><span class="n">5</span><span>Ação sugerida: criar campanhas de bônus segmentadas para clientes que ainda não resgataram nenhum bônus — esse grupo segue quase do mesmo tamanho do grupo que já resgatou em ambos os sites (Mega Loterias: 9.695 não resgataram vs. 8.681 resgataram; Sorte Sorte: 1.057 vs. 1.065) — dado o forte contraste de frequência entre os dois grupos (ver item 2), converter mais clientes desse grupo para o primeiro resgate é a alavanca mais direta de recorrência que temos hoje.</span></li>
         <li><span class="n">6</span><span>O sinal de frequência positivo se mantém estável nas atualizações mais recentes, o que é um bom indício, mas ainda é uma correlação acumulada dentro do mesmo período (11-27/ago), não uma comparação do mesmo cliente antes/depois. Recomendamos aguardar o primeiro ciclo mensal fechado (~11/set/2026, ver seção de confiança no topo) antes de tirar qualquer conclusão definitiva sobre o efeito do resgate na recorrência.</span></li>
       </ul>
