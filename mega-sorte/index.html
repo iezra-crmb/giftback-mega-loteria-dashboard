@@ -365,7 +365,7 @@ document.addEventListener('DOMContentLoaded', function(){
       </div>
       <div class="insight warn">
         <div class="num" style="font-size:15px; min-width:92px">AINDA NÃO</div>
-        <p><strong style="color:var(--text-primary)">Subida de faixa (Fx1→Fx8), nos dois sites: ainda não é prova estatística.</strong> <span class="confidence-chip conf-low">Confiança: Baixa</span> A base do Giftback não guarda o histórico de cada cliente antes de 11/ago — não dá para comparar a faixa do <em>mesmo</em> cliente antes do piloto vs. depois. Mas já temos uma primeira leitura real, mesmo cliente, comparando a 1ª semana do piloto com a semana mais recente fechada (~1 semana de intervalo, 10 dias) — ver o card "Mesmo cliente, ~1 semana depois" logo abaixo. É direcional, ainda não é a régua definitiva (essa vem com o fechamento do ciclo mensal, ~11/set).</p>
+        <p><strong style="color:var(--text-primary)">Subida de faixa (Fx1→Fx8), nos dois sites: ainda não é prova estatística.</strong> <span class="confidence-chip conf-low">Confiança: Baixa</span> A base do Giftback não guarda o histórico de cada cliente antes de 11/ago — não dá para comparar a faixa do <em>mesmo</em> cliente antes do piloto vs. depois. Mas já temos uma primeira leitura real, mesmo cliente, comparando a 1ª semana do piloto com a semana mais recente fechada (~1 semana de intervalo, 10 dias) — ver o card "Mesmo cliente, ~1 semana depois" mais abaixo no painel. É direcional, ainda não é a régua definitiva (essa vem com o fechamento do ciclo mensal, ~11/set).</p>
       </div>
 
       <div class="confidence-timeline">
@@ -392,80 +392,6 @@ document.addEventListener('DOMContentLoaded', function(){
             <div class="tl-text">Vários ciclos consecutivos, tendência menos sensível ao ruído de um mês isolado — nível para afirmar com segurança se o Giftback está de fato causando o aumento de frequência e a subida de faixa, e não só coincidindo com ele. <span class="confidence-chip conf-high">Confiança: Alta</span></div>
           </div>
         </div>
-      </div>
-    </div>
-
-    <!-- MESMO CLIENTE: COMPARAÇÃO DE PERÍODO -->
-    <div class="card" id="cohortCard" style="border:2px solid var(--series-2)">
-      <h2>Mesmo cliente, ~1 semana depois: primeira leitura real de coorte</h2>
-      <p class="desc">A tabela de faixas acima compara <strong style="color:var(--text-primary)">perfis diferentes</strong> (benchmark vs. piloto). Aqui é diferente: pegamos <strong style="color:var(--text-primary)">o mesmo cliente</strong>, identificado pelo código de usuário, e comparamos a semana 1 do piloto (11-17/ago) com a semana mais recente já 100% fechada (21-27/ago) — cerca de 1 semana de intervalo (10 dias entre o fim das duas semanas). Clientes que vieram pela campanha de ATIVAÇÃO foram excluídos, para medir só o comportamento orgânico de quem já era cliente FIDELIDADE. Isso é uma versão antecipada do primeiro marco da linha do tempo acima (~11/set) — mesma pergunta, com menos dias de dado ainda.</p>
-
-      <div class="section-h" style="font-size:14px;margin-top:4px">Mega Loterias (57440)</div>
-      <div class="kpi-grid" style="margin-top:8px">
-        <div class="tile"><div class="label">Clientes ativos — sem. 11-17/ago</div><div class="value">10.882</div></div>
-        <div class="tile"><div class="label">Clientes ativos — sem. 21-27/ago</div><div class="value">11.480</div><div class="sub" style="color:var(--good-text)">+5,5% (base orgânica, sem ativação)</div></div>
-        <div class="tile"><div class="label">Voltaram nas duas semanas</div><div class="value">6.496</div><div class="sub">59,7% de retenção em ~1 semana</div></div>
-        <div class="tile"><div class="label">Frequência do mesmo cliente</div><div class="value">2,78 &rarr; 2,81</div><div class="sub" style="color:var(--good-text)">leve alta (+1,1%)</div></div>
-        <div class="tile"><div class="label">Valor médio do mesmo cliente</div><div class="value">R$ 52,67 &rarr; R$ 53,09</div><div class="sub" style="color:var(--good-text)">leve alta (+0,8%)</div></div>
-        <div class="tile"><div class="label">Migração de faixa (6.496 clientes)</div><div class="value" style="font-size:15px">1.497 subiram · 3.582 mantiveram · 1.417 desceram</div><div class="sub" style="color:var(--good-text)">saldo líquido +80 clientes</div></div>
-      </div>
-
-      <div class="section-h" style="font-size:14px;margin-top:20px">Sorte Sorte (57448)</div>
-      <div class="kpi-grid" style="margin-top:8px">
-        <div class="tile"><div class="label">Clientes ativos — sem. 11-17/ago</div><div class="value">1.322</div></div>
-        <div class="tile"><div class="label">Clientes ativos — sem. 21-27/ago</div><div class="value">1.391</div><div class="sub" style="color:var(--good-text)">+5,2% (base orgânica, sem ativação)</div></div>
-        <div class="tile"><div class="label">Voltaram nas duas semanas</div><div class="value">743</div><div class="sub">56,2% de retenção em ~1 semana</div></div>
-        <div class="tile"><div class="label">Frequência do mesmo cliente</div><div class="value">2,86 &rarr; 2,93</div><div class="sub" style="color:var(--good-text)">leve alta (+2,4%)</div></div>
-        <div class="tile"><div class="label">Valor médio do mesmo cliente</div><div class="value">R$ 40,90 &rarr; R$ 47,85</div><div class="sub" style="color:var(--good-text)">+17,0%</div></div>
-        <div class="tile"><div class="label">Migração de faixa (743 clientes)</div><div class="value" style="font-size:15px">168 subiram · 423 mantiveram · 152 desceram</div><div class="sub" style="color:var(--good-text)">saldo líquido +16 clientes</div></div>
-      </div>
-
-      <div class="insight good" style="margin-top:16px">
-        <div class="num" style="font-size:16px; min-width:100px">Positivo, sem prova ainda</div>
-        <p><strong style="color:var(--text-primary)">Leitura de hoje:</strong> nos dois sites, quase 6 em cada 10 clientes da primeira semana do piloto continuam apostando ~1 semana depois (59,7% em Mega Loterias, 56,2% em Sorte Sorte), a base ativa orgânica está crescendo (+5,5% Mega Loterias, +5,2% Sorte Sorte) e, entre quem voltou, a frequência e o valor <strong style="color:var(--text-primary)">subiram</strong> nos dois sites — de forma discreta em Mega Loterias (+1,1% freq., +0,8% valor) e de forma mais forte em Sorte Sorte (+2,4% freq., +17,0% valor). A migração de faixa também é positiva nos dois sites (saldo líquido de +80 clientes em Mega Loterias, +16 em Sorte Sorte). <span class="confidence-chip conf-low">Confiança: Baixa</span> É só cerca de 1 semana de intervalo dentro do mesmo mês de lançamento (ainda sob efeito novidade, ver item 3 das recomendações) — a leitura estatisticamente robusta é a comparação de ciclo mensal fechado (ago vs. set), prevista para ~11/set na linha do tempo acima.</p>
-      </div>
-    </div>
-
-    <!-- SAÍDA DA FAIXA 1: TESTE PREDITIVO -->
-    <div class="card" id="fx1ExitCard" style="border:2px solid var(--good)">
-      <h2>Sair da Fx1 cedo prevê retorno futuro — e resgatar bônus prevê sair da Fx1</h2>
-      <p class="desc">Hipótese do cliente: historicamente, quem sai da faixa 1 tende a voltar mais vezes depois. Testamos isso com um desenho <strong style="color:var(--text-primary)">sem sobreposição de datas</strong> — classificamos o cliente pelo que ele já gastou nos 3 primeiros dias do piloto (11-13/ago, "janela preditora") e só então medimos o que aconteceu nos 14 dias seguintes (14-27/ago, "janela de resultado"). Como a classificação usa dados de ANTES do resultado ser medido, o resultado não pode "vazar" para dentro da classificação. Clientes da campanha de ATIVAÇÃO excluídos dos dois testes.</p>
-
-      <div class="section-h" style="font-size:14px;margin-top:4px">A. Quem já sai da Fx1 nos 3 primeiros dias volta mais depois?</div>
-      <details class="tableview" open>
-        <summary>Ver tabela — Mega Loterias (57440) e Sorte Sorte (57448)</summary>
-        <table class="datatbl">
-          <thead><tr><th>Site</th><th>Grupo (classificado em 11-13/ago)</th><th style="text-align:right">Clientes</th><th style="text-align:right">Taxa de retorno (14-27/ago)</th><th style="text-align:right">Transações médias (quem voltou)</th><th style="text-align:right">Dias ativos médios (quem voltou)</th></tr></thead>
-          <tbody>
-            <tr><td>Mega Loterias</td><td>Ficou na Fx1</td><td class="num">4.496</td><td class="num">78,3%</td><td class="num">4,88</td><td class="num">4,19</td></tr>
-            <tr><td>Mega Loterias</td><td><strong style="color:var(--text-primary)">Já saiu da Fx1</strong></td><td class="num">2.397</td><td class="num" style="color:var(--good-text)">84,6%</td><td class="num" style="color:var(--good-text)">6,63 (+36%)</td><td class="num" style="color:var(--good-text)">5,28 (+26%)</td></tr>
-            <tr><td>Sorte Sorte</td><td>Ficou na Fx1</td><td class="num">568</td><td class="num">74,6%</td><td class="num">4,86</td><td class="num">4,09</td></tr>
-            <tr><td>Sorte Sorte</td><td><strong style="color:var(--text-primary)">Já saiu da Fx1</strong></td><td class="num">264</td><td class="num" style="color:var(--good-text)">83,3%</td><td class="num" style="color:var(--good-text)">6,81 (+40%)</td><td class="num" style="color:var(--good-text)">5,58 (+36%)</td></tr>
-          </tbody>
-        </table>
-      </details>
-      <div class="insight good" style="margin-top:12px">
-        <div class="num">+36%</div>
-        <p>a hipótese se confirma nos dois sites, com magnitude parecida: quem já sai da Fx1 nos 3 primeiros dias tem taxa de retorno de 6 a 9 pontos percentuais maior, e entre quem volta, aposta cerca de 36-40% mais vezes no período seguinte do que quem fica preso na Fx1. <span class="confidence-chip conf-low">Confiança: Baixa</span> É correlação bem desenhada (sem sobreposição de datas) e consistente nos dois sites — mas ainda não prova que "empurrar" alguém pra fora da Fx1 causa esse retorno; pode ser que o tipo de cliente que já gasta mais de cara seja, por natureza, mais engajado.</p>
-      </div>
-
-      <div class="section-h" style="font-size:14px;margin-top:22px">B. Resgatar bônus prevê sair da Fx1?</div>
-      <p class="desc">Dentro do grupo que começou na Fx1 e voltou (14-27/ago), comparamos quem resgatou pelo menos 1 bônus nesse período com quem não resgatou nenhum — e olhamos se saíram da Fx1 somando o piloto inteiro (11-27/ago).</p>
-      <details class="tableview" open>
-        <summary>Ver tabela — Mega Loterias (57440) e Sorte Sorte (57448)</summary>
-        <table class="datatbl">
-          <thead><tr><th>Site</th><th>Resgatou bônus em 14-27/ago?</th><th style="text-align:right">Clientes</th><th style="text-align:right">Saíram da Fx1 (piloto todo)</th><th style="text-align:right">Transações médias</th><th style="text-align:right">Dias ativos médios</th></tr></thead>
-          <tbody>
-            <tr><td>Mega Loterias</td><td>Não resgatou</td><td class="num">1.422</td><td class="num">66,7%</td><td class="num">3,25</td><td class="num">2,85</td></tr>
-            <tr><td>Mega Loterias</td><td><strong style="color:var(--text-primary)">Resgatou</strong></td><td class="num">2.098</td><td class="num" style="color:var(--good-text)">94,0%</td><td class="num" style="color:var(--good-text)">5,99</td><td class="num" style="color:var(--good-text)">5,11</td></tr>
-            <tr><td>Sorte Sorte</td><td>Não resgatou</td><td class="num">175</td><td class="num">62,9%</td><td class="num">3,27</td><td class="num">2,81</td></tr>
-            <tr><td>Sorte Sorte</td><td><strong style="color:var(--text-primary)">Resgatou</strong></td><td class="num">249</td><td class="num" style="color:var(--good-text)">94,4%</td><td class="num" style="color:var(--good-text)">5,97</td><td class="num" style="color:var(--good-text)">5,00</td></tr>
-          </tbody>
-        </table>
-      </details>
-      <div class="insight warn" style="margin-top:12px">
-        <div class="num" style="font-size:16px; min-width:100px">+27 p.p.</div>
-        <p>quem resgatou pelo menos 1 bônus tem uma taxa de saída da Fx1 muito maior — 94,0% em Mega Loterias e 94,4% em Sorte Sorte, contra 66,7% e 62,9% entre quem não resgatou (uma diferença de 27,3 pontos percentuais em Mega Loterias e 31,5 em Sorte Sorte). <span class="confidence-chip conf-low">Confiança: Baixa</span> <strong style="color:var(--text-primary)">Ressalva importante:</strong> essa comparação é mais "contaminada" que a do item A — resgatar um bônus normalmente exige uma compra associada, então parte da diferença já era esperada por construção (quem resgata, quase sempre gasta mais naquele momento). Ainda assim, o número é útil: mesmo sem resgatar nada, 2 em cada 3 clientes que começaram na Fx1 saem dela sozinhos — mas resgatar bônus está associado a sair da Fx1 em praticamente 19 de cada 20 casos. É o argumento mais direto que temos hoje para o cliente investir em incentivar o primeiro resgate desse grupo.</p>
       </div>
     </div>
 
@@ -595,6 +521,81 @@ document.addEventListener('DOMContentLoaded', function(){
       </div>
     </div>
 
+    <!-- MESMO CLIENTE: COMPARAÇÃO DE PERÍODO -->
+    <div class="card" id="cohortCard" style="border:2px solid var(--series-2)">
+      <h2>Mesmo cliente, ~1 semana depois: primeira leitura real de coorte</h2>
+      <p class="desc">A tabela de faixas acima compara <strong style="color:var(--text-primary)">perfis diferentes</strong> (benchmark vs. piloto). Aqui é diferente: pegamos <strong style="color:var(--text-primary)">o mesmo cliente</strong>, identificado pelo código de usuário, e comparamos a semana 1 do piloto (11-17/ago) com a semana mais recente já 100% fechada (21-27/ago) — cerca de 1 semana de intervalo (10 dias entre o fim das duas semanas). Clientes que vieram pela campanha de ATIVAÇÃO foram excluídos, para medir só o comportamento orgânico de quem já era cliente FIDELIDADE. Isso é uma versão antecipada do primeiro marco da linha do tempo acima (~11/set) — mesma pergunta, com menos dias de dado ainda.</p>
+
+      <div class="section-h" style="font-size:14px;margin-top:4px">Mega Loterias (57440)</div>
+      <div class="kpi-grid" style="margin-top:8px">
+        <div class="tile"><div class="label">Clientes ativos — sem. 11-17/ago</div><div class="value">10.882</div></div>
+        <div class="tile"><div class="label">Clientes ativos — sem. 21-27/ago</div><div class="value">11.480</div><div class="sub" style="color:var(--good-text)">+5,5% (base orgânica, sem ativação)</div></div>
+        <div class="tile"><div class="label">Voltaram nas duas semanas</div><div class="value">6.496</div><div class="sub">59,7% de retenção em ~1 semana</div></div>
+        <div class="tile"><div class="label">Frequência do mesmo cliente</div><div class="value">2,78 &rarr; 2,81</div><div class="sub" style="color:var(--good-text)">leve alta (+1,1%)</div></div>
+        <div class="tile"><div class="label">Valor médio do mesmo cliente</div><div class="value">R$ 52,67 &rarr; R$ 53,09</div><div class="sub" style="color:var(--good-text)">leve alta (+0,8%)</div></div>
+        <div class="tile"><div class="label">Migração de faixa (6.496 clientes)</div><div class="value" style="font-size:15px">1.497 subiram · 3.582 mantiveram · 1.417 desceram</div><div class="sub" style="color:var(--good-text)">saldo líquido +80 clientes</div></div>
+      </div>
+
+      <div class="section-h" style="font-size:14px;margin-top:20px">Sorte Sorte (57448)</div>
+      <div class="kpi-grid" style="margin-top:8px">
+        <div class="tile"><div class="label">Clientes ativos — sem. 11-17/ago</div><div class="value">1.322</div></div>
+        <div class="tile"><div class="label">Clientes ativos — sem. 21-27/ago</div><div class="value">1.391</div><div class="sub" style="color:var(--good-text)">+5,2% (base orgânica, sem ativação)</div></div>
+        <div class="tile"><div class="label">Voltaram nas duas semanas</div><div class="value">743</div><div class="sub">56,2% de retenção em ~1 semana</div></div>
+        <div class="tile"><div class="label">Frequência do mesmo cliente</div><div class="value">2,86 &rarr; 2,93</div><div class="sub" style="color:var(--good-text)">leve alta (+2,4%)</div></div>
+        <div class="tile"><div class="label">Valor médio do mesmo cliente</div><div class="value">R$ 40,90 &rarr; R$ 47,85</div><div class="sub" style="color:var(--good-text)">+17,0%</div></div>
+        <div class="tile"><div class="label">Migração de faixa (743 clientes)</div><div class="value" style="font-size:15px">168 subiram · 423 mantiveram · 152 desceram</div><div class="sub" style="color:var(--good-text)">saldo líquido +16 clientes</div></div>
+      </div>
+
+      <div class="insight good" style="margin-top:16px">
+        <div class="num" style="font-size:16px; min-width:100px">Positivo, sem prova ainda</div>
+        <p><strong style="color:var(--text-primary)">Leitura de hoje:</strong> nos dois sites, quase 6 em cada 10 clientes da primeira semana do piloto continuam apostando ~1 semana depois (59,7% em Mega Loterias, 56,2% em Sorte Sorte), a base ativa orgânica está crescendo (+5,5% Mega Loterias, +5,2% Sorte Sorte) e, entre quem voltou, a frequência e o valor <strong style="color:var(--text-primary)">subiram</strong> nos dois sites — de forma discreta em Mega Loterias (+1,1% freq., +0,8% valor) e de forma mais forte em Sorte Sorte (+2,4% freq., +17,0% valor). A migração de faixa também é positiva nos dois sites (saldo líquido de +80 clientes em Mega Loterias, +16 em Sorte Sorte). <span class="confidence-chip conf-low">Confiança: Baixa</span> É só cerca de 1 semana de intervalo dentro do mesmo mês de lançamento (ainda sob efeito novidade, ver item 3 das recomendações) — a leitura estatisticamente robusta é a comparação de ciclo mensal fechado (ago vs. set), prevista para ~11/set na linha do tempo acima.</p>
+      </div>
+    </div>
+
+    <!-- SAÍDA DA FAIXA 1: TESTE PREDITIVO -->
+    <div class="card" id="fx1ExitCard" style="border:2px solid var(--good)">
+      <h2>Sair da Fx1 cedo prevê retorno futuro — e resgatar bônus prevê sair da Fx1</h2>
+      <p class="desc">Hipótese do cliente: historicamente, quem sai da faixa 1 tende a voltar mais vezes depois. Testamos isso com um desenho <strong style="color:var(--text-primary)">sem sobreposição de datas</strong> — classificamos o cliente pelo que ele já gastou nos 3 primeiros dias do piloto (11-13/ago, "janela preditora") e só então medimos o que aconteceu nos 14 dias seguintes (14-27/ago, "janela de resultado"). Como a classificação usa dados de ANTES do resultado ser medido, o resultado não pode "vazar" para dentro da classificação. Clientes da campanha de ATIVAÇÃO excluídos dos dois testes.</p>
+
+      <div class="section-h" style="font-size:14px;margin-top:4px">A. Quem já sai da Fx1 nos 3 primeiros dias volta mais depois?</div>
+      <details class="tableview" open>
+        <summary>Ver tabela — Mega Loterias (57440) e Sorte Sorte (57448)</summary>
+        <table class="datatbl">
+          <thead><tr><th>Site</th><th>Grupo (classificado em 11-13/ago)</th><th style="text-align:right">Clientes</th><th style="text-align:right">Taxa de retorno (14-27/ago)</th><th style="text-align:right">Transações médias (quem voltou)</th><th style="text-align:right">Dias ativos médios (quem voltou)</th></tr></thead>
+          <tbody>
+            <tr><td>Mega Loterias</td><td>Ficou na Fx1</td><td class="num">4.496</td><td class="num">78,3%</td><td class="num">4,88</td><td class="num">4,19</td></tr>
+            <tr><td>Mega Loterias</td><td><strong style="color:var(--text-primary)">Já saiu da Fx1</strong></td><td class="num">2.397</td><td class="num" style="color:var(--good-text)">84,6%</td><td class="num" style="color:var(--good-text)">6,63 (+36%)</td><td class="num" style="color:var(--good-text)">5,28 (+26%)</td></tr>
+            <tr><td>Sorte Sorte</td><td>Ficou na Fx1</td><td class="num">568</td><td class="num">74,6%</td><td class="num">4,86</td><td class="num">4,09</td></tr>
+            <tr><td>Sorte Sorte</td><td><strong style="color:var(--text-primary)">Já saiu da Fx1</strong></td><td class="num">264</td><td class="num" style="color:var(--good-text)">83,3%</td><td class="num" style="color:var(--good-text)">6,81 (+40%)</td><td class="num" style="color:var(--good-text)">5,58 (+36%)</td></tr>
+          </tbody>
+        </table>
+      </details>
+      <div class="insight good" style="margin-top:12px">
+        <div class="num">+36%</div>
+        <p>a hipótese se confirma nos dois sites, com magnitude parecida: quem já sai da Fx1 nos 3 primeiros dias tem taxa de retorno de 6 a 9 pontos percentuais maior, e entre quem volta, aposta cerca de 36-40% mais vezes no período seguinte do que quem fica preso na Fx1. <span class="confidence-chip conf-low">Confiança: Baixa</span> É correlação bem desenhada (sem sobreposição de datas) e consistente nos dois sites — mas ainda não prova que "empurrar" alguém pra fora da Fx1 causa esse retorno; pode ser que o tipo de cliente que já gasta mais de cara seja, por natureza, mais engajado.</p>
+      </div>
+
+      <div class="section-h" style="font-size:14px;margin-top:22px">B. Resgatar bônus prevê sair da Fx1?</div>
+      <p class="desc">Dentro do grupo que começou na Fx1 e voltou (14-27/ago), comparamos quem resgatou pelo menos 1 bônus nesse período com quem não resgatou nenhum — e olhamos se saíram da Fx1 somando o piloto inteiro (11-27/ago).</p>
+      <details class="tableview" open>
+        <summary>Ver tabela — Mega Loterias (57440) e Sorte Sorte (57448)</summary>
+        <table class="datatbl">
+          <thead><tr><th>Site</th><th>Resgatou bônus em 14-27/ago?</th><th style="text-align:right">Clientes</th><th style="text-align:right">Saíram da Fx1 (piloto todo)</th><th style="text-align:right">Transações médias</th><th style="text-align:right">Dias ativos médios</th></tr></thead>
+          <tbody>
+            <tr><td>Mega Loterias</td><td>Não resgatou</td><td class="num">1.422</td><td class="num">66,7%</td><td class="num">3,25</td><td class="num">2,85</td></tr>
+            <tr><td>Mega Loterias</td><td><strong style="color:var(--text-primary)">Resgatou</strong></td><td class="num">2.098</td><td class="num" style="color:var(--good-text)">94,0%</td><td class="num" style="color:var(--good-text)">5,99</td><td class="num" style="color:var(--good-text)">5,11</td></tr>
+            <tr><td>Sorte Sorte</td><td>Não resgatou</td><td class="num">175</td><td class="num">62,9%</td><td class="num">3,27</td><td class="num">2,81</td></tr>
+            <tr><td>Sorte Sorte</td><td><strong style="color:var(--text-primary)">Resgatou</strong></td><td class="num">249</td><td class="num" style="color:var(--good-text)">94,4%</td><td class="num" style="color:var(--good-text)">5,97</td><td class="num" style="color:var(--good-text)">5,00</td></tr>
+          </tbody>
+        </table>
+      </details>
+      <div class="insight warn" style="margin-top:12px">
+        <div class="num" style="font-size:16px; min-width:100px">+27 p.p.</div>
+        <p>quem resgatou pelo menos 1 bônus tem uma taxa de saída da Fx1 muito maior — 94,0% em Mega Loterias e 94,4% em Sorte Sorte, contra 66,7% e 62,9% entre quem não resgatou (uma diferença de 27,3 pontos percentuais em Mega Loterias e 31,5 em Sorte Sorte). <span class="confidence-chip conf-low">Confiança: Baixa</span> <strong style="color:var(--text-primary)">Ressalva importante:</strong> essa comparação é mais "contaminada" que a do item A — resgatar um bônus normalmente exige uma compra associada, então parte da diferença já era esperada por construção (quem resgata, quase sempre gasta mais naquele momento). Ainda assim, o número é útil: mesmo sem resgatar nada, 2 em cada 3 clientes que começaram na Fx1 saem dela sozinhos — mas resgatar bônus está associado a sair da Fx1 em praticamente 19 de cada 20 casos. É o argumento mais direto que temos hoje para o cliente investir em incentivar o primeiro resgate desse grupo.</p>
+      </div>
+    </div>
+
+
     <!-- RECOMMENDATIONS -->
     <div class="card">
       <h2>O que isso significa para a meta de retenção e subida de faixa</h2>
@@ -603,7 +604,7 @@ document.addEventListener('DOMContentLoaded', function(){
         <li><span class="n">1</span><span>O maior segmento em ambos os sites é quem aposta <strong style="color:var(--text-primary)">apenas 1x</strong> no período (42% da base de Mega Loterias, 40% da de Sorte Sorte) — é aqui que está o maior volume de clientes para trabalhar, não no topo da pirâmide.</span></li>
         <li><span class="n">2</span><span><strong style="color:var(--text-primary)">Correção de metodologia (mantida desde a atualização anterior):</strong> cada cliente é contado em um único grupo (resgatou ou não), evitando o mesmo cliente entrar nos dois grupos quando tinha bônus resgatados e não resgatados no mesmo período. O sinal segue <strong style="color:var(--text-primary)">fortemente positivo</strong> nos dois sites: em Mega Loterias, quem resgata bônus fez em média <strong style="color:var(--text-primary)">~383% mais transações</strong> no período do que quem não resgata (6,00 vs. 1,24 apostas, 9.046 vs. 9.989 clientes) — bem acima da meta de +15% de frequência que a própria marca definiu para esse site. Em Sorte Sorte (ainda sem meta própria registrada) o padrão é ainda mais forte, <strong style="color:var(--text-primary)">~398% mais transações</strong> (6,06 vs. 1,22 apostas, 1.110 vs. 1.083 clientes). É uma correlação no mesmo período, não prova de causalidade, e vale acompanhar as próximas atualizações para confirmar que o sinal se mantém estável antes de reportar como resultado definitivo.</span></li>
         <li><span class="n">3</span><span>A taxa de uso do bônus subiu forte nos primeiros dias após o lançamento em Mega Loterias, atingiu o pico em 14/ago (62,0%) e vem recuando desde então, estabilizando entre 12% e 17% nos dias mais recentes já fechados (14,2% → 33,6% → 56,1% → 62,0% → 47,4% → 39,5% → 32,0% → 25,5% → 22,3% → 22,6% → 17,5% → 13,9% → 16,8% → 14,9% → 15,6% → 12,0% → 16,7%, de 11 a 27/ago) — um padrão comum de "efeito novidade" no lançamento. O dia 28/ago (hoje) já tem 1.093 bônus gerados e taxa de uso de 29,0% em Mega Loterias até o momento desta atualização (12:27, horário de Brasília) — é um dia ainda em andamento (parcial), então esse número deve mudar nas próximas atualizações. Em 22/ago também houve uma leva pontual de ~610 mil bônus tipo ATIVAÇÃO (reengajamento de base inativa) em Mega Loterias, tratada à parte deste relatório de FIDELIDADE — ver relatório específico de ativação.</span></li>
-        <li><span class="n">4</span><span><strong style="color:var(--text-primary)">Primeira leitura de "mesmo cliente" já está no ar</strong> (card "Mesmo cliente, ~1 semana depois", logo após a "Resposta direta" no topo): comparando a 1ª semana do piloto com a semana mais recente fechada, ~60% dos clientes de Mega Loterias e ~56% de Sorte Sorte voltaram, e frequência/valor por cliente subiram nos dois sites (discretamente em Mega Loterias, com mais força em Sorte Sorte) — sem sinal de queda. Ainda é cedo (~1 semana de intervalo, mesmo mês de lançamento) para tratar como prova, mas é a base do teste que vai virar definitivo no fechamento do ciclo mensal (~11/set).</span></li>
+        <li><span class="n">4</span><span><strong style="color:var(--text-primary)">Primeira leitura de "mesmo cliente" já está no ar</strong> (card "Mesmo cliente, ~1 semana depois", logo acima desta lista de recomendações): comparando a 1ª semana do piloto com a semana mais recente fechada, ~60% dos clientes de Mega Loterias e ~56% de Sorte Sorte voltaram, e frequência/valor por cliente subiram nos dois sites (discretamente em Mega Loterias, com mais força em Sorte Sorte) — sem sinal de queda. Ainda é cedo (~1 semana de intervalo, mesmo mês de lançamento) para tratar como prova, mas é a base do teste que vai virar definitivo no fechamento do ciclo mensal (~11/set).</span></li>
         <li><span class="n">5</span><span>Ação sugerida: criar campanhas de bônus segmentadas para clientes que ainda não resgataram nenhum bônus — esse grupo segue quase do mesmo tamanho do grupo que já resgatou em ambos os sites (Mega Loterias: 9.989 não resgataram vs. 9.046 resgataram; Sorte Sorte: 1.083 vs. 1.110) — dado o forte contraste de frequência entre os dois grupos (ver item 2), converter mais clientes desse grupo para o primeiro resgate é a alavanca mais direta de recorrência que temos hoje.</span></li>
         <li><span class="n">6</span><span>O sinal de frequência positivo se mantém estável nas atualizações mais recentes, o que é um bom indício, mas ainda é uma correlação acumulada dentro do mesmo período (11-28/ago), não uma comparação do mesmo cliente antes/depois. Recomendamos aguardar o primeiro ciclo mensal fechado (~11/set/2026, ver seção de confiança no topo) antes de tirar qualquer conclusão definitiva sobre o efeito do resgate na recorrência.</span></li>
         <li><span class="n">7</span><span><strong style="color:var(--text-primary)">Marco de regra em 27/ago/2026, 15h:</strong> o giro obrigatório pra usar o cashback caiu de 6x para 4x o valor do bônus, nos dois sites (ver aviso no topo do painel). Daqui pra frente, uma alta na taxa de resgate ou queda no tempo médio até o resgate deve ser lida à luz dessa mudança de regra — não é uma nova correção de metodologia nem uma anomalia a investigar, é o efeito esperado de facilitar o desbloqueio do cupom.</span></li>
