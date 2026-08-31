@@ -596,6 +596,76 @@ document.addEventListener('DOMContentLoaded', function(){
     </div>
 
 
+    <!-- DADOS GERAIS REAIS: MES FECHADO MONITORADO -->
+    <div class="card" id="realMonthCard" style="border:2px solid var(--series-1)">
+      <h2>Dados gerais reais — mês mais recente fechado (agosto/2026)</h2>
+      <p class="desc">Até aqui, a seção "Dados gerais" do meio deste painel vem da planilha que a Mega Loteria nos manda por e-mail (só jul/2026, só Mega Loterias). Esta seção é diferente: é a MESMA estrutura (KPIs gerais + faixas Fx1-Fx8), mas calculada direto do Giftback, com dado que nós monitoramos — sem depender de planilha. Cobre 11-31/ago/2026 (21 dias corridos) — não é um mês cheio de 31 dias porque o Giftback só passou a existir nesses 2 sites em 11/ago (não há nenhum dado antes disso, independente do piloto estar ativo ou não). Já exclui a leva pontual de ATIVAÇÃO de 22/ago (filtro tipo=FIDELIDADE) mas ainda mistura os dois regimes de giro (6x até 27/ago 15h, 4x depois) — trate como o primeiro ciclo real, não como um mês "normal".</p>
+
+      <div class="section-h" style="font-size:14px;margin-top:4px">Mega Loterias (57440)</div>
+      <div class="kpi-grid" style="margin-top:8px">
+        <div class="tile"><div class="label">Pedidos (transações)</div><div class="value">75.941</div></div>
+        <div class="tile"><div class="label">Faturamento</div><div class="value">R$ 1.482.665,23</div></div>
+        <div class="tile"><div class="label">Ticket médio</div><div class="value">R$ 19,52</div></div>
+        <div class="tile"><div class="label">Frequência média</div><div class="value">3,75</div><div class="sub">transações / cliente / 21 dias</div></div>
+        <div class="tile"><div class="label">Clientes ativos</div><div class="value">20.238</div></div>
+        <div class="tile"><div class="label">RMC médio</div><div class="value">R$ 73,26</div><div class="sub">receita média por cliente</div></div>
+      </div>
+      <div class="insight" style="margin-top:12px">
+        <div class="num" style="font-size:16px; min-width:80px">~82%</div>
+        <p>comparando com o benchmark de jul/2026 (mês cheio, 31 dias, planilha do cliente): o ticket médio ficou quase idêntico (R$ 19,52 em ago vs. R$ 19,98 em jul, -2,3%) e o ritmo diário de transações e faturamento em agosto está em ~82% e ~80% do ritmo diário de julho, respectivamente. Isso é um bom sinal de que o Giftback está capturando a grande maioria do movimento real do site, não só uma fatia de quem usa cupom — o que dá confiança pra usar esse dado monitorado como substituto da planilha manual daqui pra frente.</p>
+      </div>
+
+      <details class="tableview" open style="margin-top:14px">
+        <summary>Ver tabela por faixa (Fx1-Fx8) — Mega Loterias, ago/2026 (dado real monitorado)</summary>
+        <table class="datatbl">
+          <thead><tr><th>Faixa</th><th style="text-align:right">Clientes</th><th style="text-align:right">Valor total</th><th style="text-align:right">Transações</th><th style="text-align:right">Frequência</th><th style="text-align:right">TM</th><th style="text-align:right">RMC</th></tr></thead>
+          <tbody>
+            <tr><td>Fx1 Até R$20</td><td class="num">8.536</td><td class="num">R$ 94.193,29</td><td class="num">11.726</td><td class="num">1,37</td><td class="num">R$ 8,03</td><td class="num">R$ 11,03</td></tr>
+            <tr><td>Fx2 R$21-R$50</td><td class="num">4.943</td><td class="num">R$ 165.576,89</td><td class="num">15.385</td><td class="num">3,11</td><td class="num">R$ 10,76</td><td class="num">R$ 33,50</td></tr>
+            <tr><td>Fx3 R$51-R$100</td><td class="num">3.384</td><td class="num">R$ 239.761,42</td><td class="num">18.052</td><td class="num">5,33</td><td class="num">R$ 13,28</td><td class="num">R$ 70,85</td></tr>
+            <tr><td>Fx4 R$101-R$300</td><td class="num">2.636</td><td class="num">R$ 433.812,08</td><td class="num">21.672</td><td class="num">8,22</td><td class="num">R$ 20,02</td><td class="num">R$ 164,57</td></tr>
+            <tr><td>Fx5 R$301-R$500</td><td class="num">406</td><td class="num">R$ 155.036,35</td><td class="num">4.556</td><td class="num">11,22</td><td class="num">R$ 34,03</td><td class="num">R$ 381,86</td></tr>
+            <tr><td>Fx6 R$501-R$1.000</td><td class="num">224</td><td class="num">R$ 152.737,27</td><td class="num">2.776</td><td class="num">12,39</td><td class="num">R$ 55,02</td><td class="num">R$ 681,86</td></tr>
+            <tr><td>Fx7 R$1.001-R$5.000</td><td class="num">106</td><td class="num">R$ 176.857,53</td><td class="num">1.729</td><td class="num">16,31</td><td class="num">R$ 102,29</td><td class="num">R$ 1.668,47</td></tr>
+            <tr><td>Fx8 Acima de R$5.000</td><td class="num">3</td><td class="num">R$ 64.690,40</td><td class="num">45</td><td class="num">15,00</td><td class="num">R$ 1.437,56</td><td class="num">R$ 21.563,47</td></tr>
+          </tbody>
+        </table>
+      </details>
+
+      <div class="section-h" style="font-size:14px;margin-top:22px">Sorte Sorte (57448)</div>
+      <p class="desc" style="margin-top:-2px">Primeira vez que temos uma visão de "Dados gerais" pra este site — nunca recebemos planilha benchmark equivalente pra Sorte Sorte, então esse dado monitorado é, por enquanto, a única referência que existe.</p>
+      <div class="kpi-grid" style="margin-top:8px">
+        <div class="tile"><div class="label">Pedidos (transações)</div><div class="value">9.212</div></div>
+        <div class="tile"><div class="label">Faturamento</div><div class="value">R$ 137.184,95</div></div>
+        <div class="tile"><div class="label">Ticket médio</div><div class="value">R$ 14,89</div></div>
+        <div class="tile"><div class="label">Frequência média</div><div class="value">3,88</div><div class="sub">transações / cliente / 21 dias</div></div>
+        <div class="tile"><div class="label">Clientes ativos</div><div class="value">2.375</div></div>
+        <div class="tile"><div class="label">RMC médio</div><div class="value">R$ 57,76</div><div class="sub">receita média por cliente</div></div>
+      </div>
+
+      <details class="tableview" open style="margin-top:14px">
+        <summary>Ver tabela por faixa (Fx1-Fx8) — Sorte Sorte, ago/2026 (dado real monitorado)</summary>
+        <table class="datatbl">
+          <thead><tr><th>Faixa</th><th style="text-align:right">Clientes</th><th style="text-align:right">Valor total</th><th style="text-align:right">Transações</th><th style="text-align:right">Frequência</th><th style="text-align:right">TM</th><th style="text-align:right">RMC</th></tr></thead>
+          <tbody>
+            <tr><td>Fx1 Até R$20</td><td class="num">1.135</td><td class="num">R$ 12.353,42</td><td class="num">1.638</td><td class="num">1,44</td><td class="num">R$ 7,54</td><td class="num">R$ 10,88</td></tr>
+            <tr><td>Fx2 R$21-R$50</td><td class="num">590</td><td class="num">R$ 19.690,76</td><td class="num">2.075</td><td class="num">3,52</td><td class="num">R$ 9,49</td><td class="num">R$ 33,37</td></tr>
+            <tr><td>Fx3 R$51-R$100</td><td class="num">343</td><td class="num">R$ 24.228,71</td><td class="num">2.091</td><td class="num">6,10</td><td class="num">R$ 11,59</td><td class="num">R$ 70,64</td></tr>
+            <tr><td>Fx4 R$101-R$300</td><td class="num">243</td><td class="num">R$ 39.756,56</td><td class="num">2.499</td><td class="num">10,28</td><td class="num">R$ 15,91</td><td class="num">R$ 163,61</td></tr>
+            <tr><td>Fx5 R$301-R$500</td><td class="num">38</td><td class="num">R$ 14.272,85</td><td class="num">496</td><td class="num">13,05</td><td class="num">R$ 28,78</td><td class="num">R$ 375,60</td></tr>
+            <tr><td>Fx6 R$501-R$1.000</td><td class="num">20</td><td class="num">R$ 13.462,48</td><td class="num">226</td><td class="num">11,30</td><td class="num">R$ 59,57</td><td class="num">R$ 673,12</td></tr>
+            <tr><td>Fx7 R$1.001-R$5.000</td><td class="num">5</td><td class="num">R$ 6.862,67</td><td class="num">172</td><td class="num">34,40</td><td class="num">R$ 39,90</td><td class="num">R$ 1.372,53</td></tr>
+            <tr><td>Fx8 Acima de R$5.000</td><td class="num">1</td><td class="num">R$ 6.557,50</td><td class="num">15</td><td class="num">15,00</td><td class="num">R$ 437,17</td><td class="num">R$ 6.557,50</td></tr>
+          </tbody>
+        </table>
+      </details>
+
+      <div class="insight warn" style="margin-top:16px">
+        <div class="num" style="font-size:16px; min-width:90px">1º ciclo real</div>
+        <p>este é o primeiro mês em que temos dado de verdade — não uma planilha manual — pra comparar. A partir de setembro/2026, quando fechar o próximo mês cheio (1-30/set, sem a mistura de regimes de giro que agosto tem), essa seção passa a ser atualizada automaticamente pela rotina, com um ciclo por vez, e vira a referência principal de "Dados gerais" pros dois sites — sem depender mais de planilha do cliente.</p>
+      </div>
+    </div>
+
     <!-- RECOMMENDATIONS -->
     <div class="card">
       <h2>O que isso significa para a meta de retenção e subida de faixa</h2>
